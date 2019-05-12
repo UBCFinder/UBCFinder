@@ -3,6 +3,7 @@ More specifically, DroidPolicy first extracts semantic rules from a training dat
 and then uses the extracted semantic rules to automatically identify the undesired behaviors reflected in a given comment.
 
 1、code
+
 (1)droidpolicy_chi.py: code of DroidPolicy for Chinese comment;
 (2)droidpolicy_eng.py: code of DroidPolicy for English comment;
 
