@@ -16,8 +16,11 @@ pip install numpy
 
 pip install jieba
 
+2、Market Policy
 
-2、Result File.
+We collect the policies of Google Play and 8 Chinese thrid-party markets, as shown in market_policy.pdf.
+
+3、Result File.
 
 (1)malware.xlsx: comments considering undesired behaviors in malware samples.
 
