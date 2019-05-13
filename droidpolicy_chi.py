@@ -8,15 +8,8 @@
 #
 #=========================================================================
 
-"""
-
-"""
 from __future__ import print_function
 from __future__ import division
-
-__copyright__ = "Copyright (c) 2017 . All Rights Reserved"
-__author__ = "Hai Liang Wang"
-__date__ = "2017-09-28:22:23:34"
 
 
 import os
