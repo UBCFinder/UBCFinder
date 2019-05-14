@@ -251,7 +251,7 @@ def detect():
 
 		# 15、notification ad
 		behavior150 = is_in_sentence(sen2, ["notification"])
-		behavior151 = is_in_sentence(sen2, [" ad ", "full", "remove"])
+		behavior151 = is_in_sentence(sen2, [" ad ", " ads ", "full", "remove"])
 		if behavior150 == 1 and behavior151 == 1:
 			result = result + ',' + "(notification ad)"
 
@@ -302,7 +302,7 @@ def detect():
 		# 23、permission abuse
 		behavior230 = is_sort(3, s2, [" ask", "Unncessary"], ["permission"])
 		behavior231 = is_sort(3, s2, ["require", " need", "want", " give"], ["permission", "access to"])
-		behavior232 = is_sort(3, s2, ["permission", "access to"], ["require", "need", "file", "photo", "record", "media", "picture"])
+		behavior232 = is_sort(3, s2, ["permission", "access to"], ["require", " need", " file", " photo", " record", " media", "picture"])
 		if behavior230 == 1:
 			result = result + ',' + "(permission abuse)"
 		elif behavior231 == 1 or behavior232 == 1:
