@@ -58,7 +58,7 @@ def is_in_list(s2,mywords):
     i = 0
     for words in s2:
         for myword in mywords:
-            if myword in words:
+            if myword == words:
                 i = 1
                 break
     return i
@@ -107,17 +107,17 @@ def detect():
 		result = ''
 
 		# 1、ad disruption
-		behavior11 = is_in_sentence(sen2, [" ad "])
-		behavior12 = is_in_sentence(sen2, [" ads "])
+		behavior11 = is_in_list(s2, ["ad"])
+		behavior12 = is_in_list(s2, ["ads"])
 		if behavior11 == 1 and "notification" not in sen2:
 			result = result + ',' + "(ad disruption)"
 		elif behavior12 == 1 and "notification" not in sen2:
 			result = result + ',' + "(ad disruption)"
 
 		# 2、virus
-		behavior21 = is_in_sentence(sen2, [" virus "])
-        	behavior22 = is_in_sentence(sen2, [" trojan "])
-       		behavior23 = is_in_sentence(sen2, [" malware "])
+		behavior21 = is_in_sentence(sen2, [" virus"])
+        	behavior22 = is_in_sentence(sen2, [" trojan"])
+       		behavior23 = is_in_sentence(sen2, [" malware"])
 		if behavior21 == 1:
 			result = result + ',' + "(virus)"
 		elif behavior22 == 1:
@@ -178,7 +178,7 @@ def detect():
 		# 8、drive-by download
 		behavior81 = is_in_sentence(sen2, ["download", "install"])
 		behavior82 = is_in_sentence(sen2, [" app", "plug-in"])
-		behavior83 = is_in_sentence(sen2, ["force", "let", "induce"])
+		behavior83 = is_in_sentence(sen2, ["force", "induce"])
 
 		if behavior81 == 1 and behavior82 == 1 and behavior83 == 1:
 			result = result + ',' + "(drive-by download)"
@@ -193,11 +193,11 @@ def detect():
 		# 10、fail to uninstall
 		behavior100 = is_in_sentence(sen2, ["fail"])
         	behavior101 = is_in_sentence(sen2, ["cannot"])
-        	behavior102 = is_in_sentence(sen2, [" how "])
+        	behavior102 = is_in_sentence(sen2, ["how "])
         	behavior103 = is_in_sentence(sen2, ["forbid"])
         	behavior104 = is_in_sentence(sen2, ["uninstall", "remove"])
         	behavior105 = is_sort(2, s2, ["cannot"], ["uninstall", "remove"])
-        	behavior106 = is_sort(2, s2, [" how "], ["uninstall", "remove"])
+        	behavior106 = is_sort(2, s2, ["how "], ["uninstall", "remove"])
         	behavior107 = is_sort(3, s2, ["fail"], ["uninstall", "remove"])
         	behavior108 = is_sort(3, s2, ["uninstall", "remove"], ["fail"])
         	behavior109 = is_sort(3, s2, ["forbid"], ["uninstall", "remove"])
@@ -256,7 +256,7 @@ def detect():
 			result = result + ',' + "(notification ad)"
 
 		# 16、fail to login
-		behavior160 = is_in_sentence(sen2, ["cannot", "fail", " how "])
+		behavior160 = is_in_sentence(sen2, ["cannot", "fail", "how "])
 		behavior161 = is_in_sentence(sen2, [" login", "register"])
 		if behavior160 == 1 and behavior161 == 1:
 			result = result + ',' + "(fail to login)"
@@ -268,7 +268,7 @@ def detect():
 			result = result + ',' + "(add shortcuts)"
 
 		# 18、fail to install
-		behavior180 = is_in_sentence(sen2, ["cannot", " fail", " how "])
+		behavior180 = is_in_sentence(sen2, ["cannot", " fail", "how "])
 		behavior181 = is_in_sentence(sen2, ["install"])
 		if behavior180 == 1 and behavior181 == 1:
 			result = result + ',' + "(fail to install)"
