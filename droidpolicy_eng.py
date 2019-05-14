@@ -152,9 +152,9 @@ def detect():
 		behavior56 = is_similar(s2, ["slow"])
 		behavior57 = is_in_sentence(sen2, ["battery"])
 		behavior57 = is_similar(s2, ["consume"])
-		if behavior51 == 1 and behavior52:
+		if behavior51 == 1 and behavior52 == 1:
 			result = result + ',' + "(bad performance)"
-		elif behavior53 == 1 and behavior54:
+		elif behavior53 == 1 and behavior54 == 1:
 			result = result + ',' + "(bad performance)"
 		elif behavior55 == 1 and behavior56 == 1:
 			result = result + ',' + "(bad performance)"
@@ -206,9 +206,9 @@ def detect():
 			result = result + ',' + "(fail to uninstall)"
 		elif behavior103 == 1 and behavior104 == 1 and (behavior109 == 1 or behavior110 == 1):
 			result = result + ',' + "(fail to uninstall)"
-		elif behavior101 == 1 and behavior104 == 1:
+		elif behavior101 == 1 and behavior104 == 1 and behavior105 == 1:
 			result = result + ',' + "(fail to uninstall)"
-		elif behavior102 == 1 and behavior104 == 1:
+		elif behavior102 == 1 and behavior104 == 1 behavior106 == 1:
 			result = result + ',' + "(fail to uninstall)"
 			
 		# 11、powerboot
