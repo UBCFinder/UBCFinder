@@ -107,8 +107,11 @@ def detect():
 		result = ''
 
 		# 1、ad disruption
-		behavior1 = is_in_sentence(sen2, ["ad"])
-		if behavior1 == 1 and "notification" not in sen2:
+		behavior11 = is_in_sentence(sen2, [" ad "])
+		behavior12 = is_in_sentence(sen2, [" ads "])
+		if behavior11 == 1 and "notification" not in sen2:
+			result = result + ',' + "(ad disruption)"
+		elif behavior12 == 1 and "notification" not in sen2:
 			result = result + ',' + "(ad disruption)"
 
 		# 2、virus
