@@ -3,7 +3,7 @@
 #=========================================================================
 #
 #
-# Author: HYY
+# Author: xxx
 # Date: 2018-08-12:10:22:32
 #
 #=========================================================================
@@ -280,17 +280,17 @@ def detect():
 			result = result + ',' + "(vulgar content)"
 
 		# 21、inconsistency
-		behavior220 = is_in_sentence(sen2, ["inconsistent"])
-		behavior221 = is_in_sentence(sen2, ["not"])
-		behavior222 = is_in_sentence(sen2, ["describe"])
+		behavior210 = is_in_sentence(sen2, ["inconsistent"])
+		behavior211 = is_in_sentence(sen2, ["not"])
+		behavior212 = is_in_sentence(sen2, ["describe"])
 		if behavior210 == 1:
 			result = result + ',' + "(inconsistency)"
-		elif behavior221 == 1 and behavior222 == 1:
+		elif behavior211 == 1 and behavior212 == 1:
 			result = result + ',' + "(inconsistency)"
 
 		# 22、background
 		behavior220 = is_in_sentence(sen2, ["itself", "background", "alwalys"])
-		behavior220 = is_in_sentence(sen2, ["download", "sms", "backup"])
+		behavior221 = is_in_sentence(sen2, ["download", "sms", "backup"])
 		if behavior220 == 1 and behavior221 == 1:
 			result = result + ',' + "(background)"
 
