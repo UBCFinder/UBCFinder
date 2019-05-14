@@ -219,7 +219,7 @@ def detect():
 		behavior124 = is_in_sentence(sen2, ["start"])
 		behavior125 = is_sort(2, s2, ["fail", "cannot"], ["start"])
 		behavior126 = is_in_sentence(sen2, ["exception"])
-		if behavior120 == 1 and "phone" is not in behavior120:
+		if behavior120 == 1 and "phone" not in sen2:
 			result = result + ',' + "(fail to start)"
 		elif behavior121 == 1 and behavior122 == 1:
 			result = result + ',' + "(fail to start)"
@@ -306,7 +306,7 @@ def detect():
 		# 24、update
 		behavior240 = is_sort(3, s2, ["update"], ["other"])
 		behavior241 = is_in_sentence(sen2, ["update","other"])
-		if behavior240 == 1 and behavior241 != 1:
+		if behavior240 == 1 and behavior241 == 1:
 			result = result + ',' + "(update)"
 
 		# 25、repackage
