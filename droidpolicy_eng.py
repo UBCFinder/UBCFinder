@@ -117,7 +117,9 @@ def detect():
 		behavior23 = is_similar(s2, ["malware"])
 		if behavior21 == 1:
 			result = result + ',' + "(virus)"
-		elif behavior22 == 1 and behavior23 == 1:
+		elif behavior22 == 1:
+			result = result + ',' + "(virus)"
+		elif behavior23 == 1:
 			result = result + ',' + "(virus)"
 
 		# 3、privacy leak
