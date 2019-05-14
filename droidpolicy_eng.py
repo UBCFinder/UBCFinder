@@ -300,9 +300,9 @@ def detect():
 			result = result + ',' + "(background)"
 
 		# 23、permission abuse
-		behavior230 = is_sort(3, s2, [" ask", "Unncessary"], ["permission"])
-		behavior231 = is_sort(3, s2, ["require", " need", "want", " give"], ["permission", "access to"])
-		behavior232 = is_sort(3, s2, ["permission", "access to"], ["require", " need", " file", " photo", " record", " media", "picture"])
+		behavior230 = is_sort(3, s2, ["ask", "unncessary"], ["permission"])
+		behavior231 = is_sort(3, s2, ["require", "need", "want", "give"], ["permission", "access to"])
+		behavior232 = is_sort(3, s2, ["permission", "access to"], ["require", "need", " file", "photo", "record", "media", "picture"])
 		if behavior230 == 1:
 			result = result + ',' + "(permission abuse)"
 		elif behavior231 == 1 or behavior232 == 1:
