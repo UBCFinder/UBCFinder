@@ -115,9 +115,9 @@ def detect():
 			result = result + ',' + "(ad disruption)"
 
 		# 2、virus
-		behavior21 = is_similar(s2, ["virus"])
-		behavior22 = is_similar(s2, ["trojan"])
-		behavior23 = is_similar(s2, ["malware"])
+		behavior21 = is_in_sentence(sen2, [" virus "])
+        	behavior22 = is_in_sentence(sen2, [" trojan "])
+       		behavior23 = is_in_sentence(sen2, [" malware "])
 		if behavior21 == 1:
 			result = result + ',' + "(virus)"
 		elif behavior22 == 1:
@@ -127,11 +127,11 @@ def detect():
 
 		# 3、privacy leak
 		behavior31 = is_in_sentence(sen2, ["steal"])
-		behavior32 = is_in_sentence(sen2, ["info", "data", "file"])
-		behavior33 = is_sort(3, s2, ["steal"], ["info"])
-		behavior34 = is_in_sentence(sen2, ["data", "photo", "file", "backup"])
-		behavior35 = is_in_sentence(sen2, ["miss", "lost"])
-		behavior36 = is_sort(3, s2, ["data", "photo", "file", "backup"], ["miss", "lost"])
+        	behavior32 = is_in_sentence(sen2, [" info ", " infomation ", " data ", " file"])
+        	behavior33 = is_sort(3, s2, ["steal"], [" info ", " infomation "])
+        	behavior34 = is_in_sentence(sen2, [" data ", " photo", " file", " backup "])
+        	behavior35 = is_in_sentence(sen2, [" miss", " lost"])
+        	behavior36 = is_sort(3, s2, [" data ", " photo", " file", " backup "], [" miss", " lost"])
 		if behavior31 == 1 and behavior32 == 1 and behavior33 == 1:
 			result = result + ',' + "(privacy leak)"
 		elif behavior34 == 1 and behavior35 == 1 and behavior36 == 1:
@@ -145,8 +145,8 @@ def detect():
 
 		# 5、bad performance
 		behavior51 = is_in_sentence(sen2, ["phone"])
-		behavior52 = is_in_sentence(sen2, ["crash", "stuck"])
-		behavior53 = is_in_sentence(sen2, ["signal", "wifi"])
+		behavior52 = is_in_sentence(sen2, [" crash", " stuck"])
+		behavior53 = is_in_sentence(sen2, ["signal", " wifi"])
 		behavior54 = is_similar(s2, ["weak"])
 		behavior55 = is_in_sentence(sen2, ["CPU"])
 		behavior56 = is_similar(s2, ["slow"])
@@ -163,7 +163,7 @@ def detect():
 
 		# 6、payment
 		behavior61 = is_in_sentence(sen2, ["fraud", "cheat", "deceive"])
-		behavior62 = is_in_sentence(sen2, ["bill", "money", "payment", "$"])
+		behavior62 = is_in_sentence(sen2, [" bill", "money", "payment", "$"])
 		
 		if behavior61 == 1 and behavior62 == 1:
 			result = result + ',' + "(payment)"
@@ -177,14 +177,14 @@ def detect():
 		
 		# 8、drive-by download
 		behavior81 = is_in_sentence(sen2, ["download", "install"])
-		behavior82 = is_in_sentence(sen2, ["app", "plug-in"])
+		behavior82 = is_in_sentence(sen2, [" app", "plug-in"])
 		behavior83 = is_in_sentence(sen2, ["force", "let", "induce"])
 
 		if behavior81 == 1 and behavior82 == 1 and behavior83 == 1:
 			result = result + ',' + "(drive-by download)"
 
 		# 9、hidden app
-		behavior91 = is_in_sentence(sen2, ["icon", "app"])
+		behavior91 = is_in_sentence(sen2, ["icon", " app"])
 		behavior92 = is_in_sentence(sen2, ["disappear", "hidden", "not find"])
 		if behavior91 == 1 and behavior92 == 1:
 			result = result + ',' + "(hidden app)"
@@ -192,16 +192,16 @@ def detect():
 
 		# 10、fail to uninstall
 		behavior100 = is_in_sentence(sen2, ["fail"])
-		behavior101 = is_in_sentence(sen2, ["cannot"])
-		behavior102 = is_in_sentence(sen2, ["how"])
-		behavior103 = is_in_sentence(sen2, ["forbid"])
-		behavior104 = is_in_sentence(sen2, ["uninstall", "remove"])
-		behavior105 = is_sort(2, s2, ["cannot"], ["uninstall", "remove"])
-		behavior106 = is_sort(2, s2, ["how"], ["uninstall", "remove"])
-		behavior107 = is_sort(3, s2, ["fail"], ["uninstall", "remove"])
-		behavior108 = is_sort(3, s2, ["uninstall", "remove"], ["fail"])
-		behavior109 = is_sort(3, s2, ["forbid"], ["uninstall", "remove"])
-		behavior110 = is_sort(3, s2, ["uninstall", "remove"], ["forbid"])
+        	behavior101 = is_in_sentence(sen2, ["cannot"])
+        	behavior102 = is_in_sentence(sen2, [" how "])
+        	behavior103 = is_in_sentence(sen2, ["forbid"])
+        	behavior104 = is_in_sentence(sen2, ["uninstall", "remove"])
+        	behavior105 = is_sort(2, s2, ["cannot"], ["uninstall", "remove"])
+        	behavior106 = is_sort(2, s2, [" how "], ["uninstall", "remove"])
+        	behavior107 = is_sort(3, s2, ["fail"], ["uninstall", "remove"])
+        	behavior108 = is_sort(3, s2, ["uninstall", "remove"], ["fail"])
+        	behavior109 = is_sort(3, s2, ["forbid"], ["uninstall", "remove"])
+        	behavior110 = is_sort(3, s2, ["uninstall", "remove"], ["forbid"])
 		if behavior100 == 1 and behavior104 == 1 and (behavior107 == 1 or behavior108 == 1):
 			result = result + ',' + "(fail to uninstall)"
 		elif behavior103 == 1 and behavior104 == 1 and (behavior109 == 1 or behavior110 == 1):
@@ -218,9 +218,9 @@ def detect():
 
 		# 12、fail to start
 		behavior120 = is_in_sentence(sen2, ["crash", "stuck"])
-		behavior121 = is_in_sentence(sen2, ["stop"])
+		behavior121 = is_in_sentence(sen2, [" stop"])
 		behavior122 = is_in_sentence(sen2, ["running"])
-		behavior123 = is_in_sentence(sen2, ["fail", "cannot"])
+		behavior123 = is_in_sentence(sen2, [" fail", "cannot"])
 		behavior124 = is_in_sentence(sen2, ["start"])
 		behavior125 = is_sort(2, s2, ["fail", "cannot"], ["start"])
 		behavior126 = is_in_sentence(sen2, ["exception"])
@@ -234,14 +234,14 @@ def detect():
 			result = result + ',' + "(fail to start)"
 
 		# 13、fail to exit
-		behavior130 = is_in_sentence(sen2, ["cannot", "exit", "close", "shut"])
+		behavior130 = is_in_sentence(sen2, ["cannot", " exit", "close", "shut"])
 		behavior131 = is_sort(2, s2, ["cannot"], ["exit", "close", "shut"])
 		if behavior130 == 1 and behavior131 == 1:
 			result = result + ',' + "(fail to exit)"
 
 		# 14、 retrieve content
 		behavior140 = is_in_sentence(sen2, ["404", "blank"])
-		behavior141 = is_in_sentence(sen2, ["fail", "cannot", "data"])
+		behavior141 = is_in_sentence(sen2, [" fail", "cannot", " data"])
 		behavior142 = is_sort(2, s2, ["fail", "cannot"], ["data"])
 		
 		if behavior140 == 1:
@@ -251,26 +251,26 @@ def detect():
 
 		# 15、notification ad
 		behavior150 = is_in_sentence(sen2, ["notification"])
-		behavior151 = is_in_sentence(sen2, ["ad", "full", "remove"])
+		behavior151 = is_in_sentence(sen2, [" ad ", "full", "remove"])
 		if behavior150 == 1 and behavior151 == 1:
 			result = result + ',' + "(notification ad)"
 
 		# 16、fail to login
-		behavior160 = is_in_sentence(sen2, ["cannot", "fail", "how"])
-		behavior161 = is_in_sentence(sen2, ["login", "register"])
+		behavior160 = is_in_sentence(sen2, ["cannot", "fail", " how "])
+		behavior161 = is_in_sentence(sen2, [" login", "register"])
 		if behavior160 == 1 and behavior161 == 1:
 			result = result + ',' + "(fail to login)"
 		
 		# 17、add shortcuts
-		behavior170 = is_in_sentence(sen2, ["add", "create"])
-		behavior171 = is_in_sentence(sen2, ["shortcut", "icon"])
+		behavior170 = is_in_sentence(sen2, [" add", "create"])
+		behavior171 = is_in_sentence(sen2, ["shortcut", " icon"])
 		if behavior170 == 1 and behavior171 == 1:
 			result = result + ',' + "(add shortcuts)"
 
 		# 18、fail to install
-		behavior180 = is_in_sentence(sen2, ["cannot", "fail", "how"])
+		behavior180 = is_in_sentence(sen2, ["cannot", " fail", " how "])
 		behavior181 = is_in_sentence(sen2, ["install"])
-		if behavior180 == 1 or behavior181 == 1:
+		if behavior180 == 1 and behavior181 == 1:
 			result = result + ',' + "(fail to install)"
 
 		# 19、redirection
@@ -280,13 +280,13 @@ def detect():
 			result = result + ',' + "(redirection)"
 
 		# 20、vulgar content
-		behavior200 = is_in_sentence(sen2, ["nude", "masturbat", "racist", "porn", "creep", "pervert", "pedophile", "horny", "penis", " dick", "sex"])
+		behavior200 = is_in_sentence(sen2, [" nude", "masturbat", "racist", " porn", "creep", "pervert", "pedophile", "horny", "penis", " dick", " sex"])
 		if behavior200 == 1:
 			result = result + ',' + "(vulgar content)"
 
 		# 21、inconsistency
 		behavior210 = is_in_sentence(sen2, ["inconsistent"])
-		behavior211 = is_in_sentence(sen2, ["not"])
+		behavior211 = is_in_sentence(sen2, [" not "])
 		behavior212 = is_in_sentence(sen2, ["describe"])
 		if behavior210 == 1:
 			result = result + ',' + "(inconsistency)"
@@ -294,14 +294,14 @@ def detect():
 			result = result + ',' + "(inconsistency)"
 
 		# 22、background
-		behavior220 = is_in_sentence(sen2, ["itself", "background", "alwalys"])
-		behavior221 = is_in_sentence(sen2, ["download", "sms", "backup"])
+		behavior220 = is_in_sentence(sen2, ["itself", "background", " alwalys"])
+		behavior221 = is_in_sentence(sen2, ["download", " sms", "backup"])
 		if behavior220 == 1 and behavior221 == 1:
 			result = result + ',' + "(background)"
 
 		# 23、permission abuse
-		behavior230 = is_sort(3, s2, ["ask", "Unncessary"], ["permission"])
-		behavior231 = is_sort(3, s2, ["require", "need", "want", "give"], ["permission", "access to"])
+		behavior230 = is_sort(3, s2, [" ask", "Unncessary"], ["permission"])
+		behavior231 = is_sort(3, s2, ["require", " need", "want", " give"], ["permission", "access to"])
 		behavior232 = is_sort(3, s2, ["permission", "access to"], ["require", "need", "file", "photo", "record", "media", "picture"])
 		if behavior230 == 1:
 			result = result + ',' + "(permission abuse)"
@@ -309,19 +309,19 @@ def detect():
 			result = result + ',' + "(permission abuse)"
 
 		# 24、update
-		behavior240 = is_sort(3, s2, ["update"], ["other"])
+		behavior240 = is_sort(3, s2, [" update"], ["other"])
 		behavior241 = is_in_sentence(sen2, ["update","other"])
 		if behavior240 == 1 and behavior241 == 1:
 			result = result + ',' + "(update)"
 
 		# 25、repackage
-		behavior250 = is_in_sentence(sen2, ["piracy", "repackage", "copy", "plagiarize"])
+		behavior250 = is_in_sentence(sen2, [" piracy", " repackage", " copy", " plagiarize"])
 		if behavior250 == 1:
 			result = result + ',' + "(repackage)"
 			
 		# 26、ranking fraud
 		behavior260 = is_in_sentence(sen2, ["comment", "review"])
-		behavior261 = is_in_sentence(sen2, ["fake", "sponsor", "sell", "buy"])
+		behavior261 = is_in_sentence(sen2, ["fake", "sponsor", " sell", " buy"])
 		if behavior260 and behavior261 == 1:
 			result = result + ',' + "(ranking fraud)"
 			
