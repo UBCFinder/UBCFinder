@@ -16,7 +16,7 @@ pip install numpy
 
 pip install jieba
 
-You can identify the undesired behaviors by invoking the method detect('your comment here')
+You can extract the undesired behaviors by directly invoking the method detect('your comment here')
 
 2、Market Policy
 
