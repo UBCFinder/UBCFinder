@@ -16,6 +16,8 @@ pip install numpy
 
 pip install jieba
 
+You can identify the undesired behaviors by invoking the method detect('your comment here')
+
 2、Market Policy
 
 We collect the policies of Google Play and 8 Chinese thrid-party markets, as shown in market_policy.pdf.
