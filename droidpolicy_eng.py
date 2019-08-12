@@ -88,8 +88,7 @@ def is_sort(interval,s2,mywords1,mywords2):
     # print(i)
     return i
 
-def detect():
-	sen2 = ''  # input: comment
+def detect(sen2):
 	s2 = sen.split(' ')
 	n = 0
 	while 1:
@@ -330,4 +329,4 @@ def detect():
    
 
 if __name__ == '__main__':
-    detect()
+    detect('your comment here')
