@@ -89,8 +89,8 @@ def is_sort(interval,s2,mywords1,mywords2):
     # print(i)
     return i
 
-def detect():
-	sen2 = ''  # input: 评论
+def detect(sen2):
+	# sen2 = ''  # input: 评论
 	s2 = [x for x in jieba.cut(sen2)]
 	n = 0
 	while 1:
@@ -340,4 +340,4 @@ def detect():
    
 
 if __name__ == '__main__':
-    detect()
+    detect('评论内容')
