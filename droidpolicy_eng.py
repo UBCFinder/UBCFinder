@@ -89,7 +89,7 @@ def is_sort(interval,s2,mywords1,mywords2):
     return i
 
 def detect(sen2):
-	s2 = sen.split(' ')
+	s2 = sen2.split(' ')
 	n = 0
 	while 1:
 		if n >= len(s2):
@@ -207,7 +207,7 @@ def detect(sen2):
 			result = result + ',' + "(fail to uninstall)"
 		elif behavior101 == 1 and behavior104 == 1 and behavior105 == 1:
 			result = result + ',' + "(fail to uninstall)"
-		elif behavior102 == 1 and behavior104 == 1 behavior106 == 1:
+		elif behavior102 == 1 and behavior104 == 1 and behavior106 == 1:
 			result = result + ',' + "(fail to uninstall)"
 			
 		# 11、powerboot
