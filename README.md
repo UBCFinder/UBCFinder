@@ -26,9 +26,9 @@ We collect the policies of Google Play and 8 Chinese thrid-party markets, as sho
 
 (1)malware.xlsx: comments considering undesired behaviors in malware samples.
 
-(2)benign_chi.xlsx: comments considering undesired behaviors in Chinese benign apps.
+(2)benign&gray_chi.xlsx: comments considering undesired behaviors in Chinese benign apps.
 
-(3)benign_eng.xlsx: comments considering undesired behaviors in Google Play benign apps.
+(3)benign&gray_eng.xlsx: comments considering undesired behaviors in Google Play benign apps.
 
 column1: package name;
 
@@ -41,3 +41,5 @@ column4: upload time of comment;
 column5: score of comment in app market;
 
 column6: app market;
+
+column7: number of anti-malware engines which have flagged the app;
