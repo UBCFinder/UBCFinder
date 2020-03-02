@@ -109,16 +109,19 @@ def detect(sen2):
 
 		# 1、ad disruption
 		behavior1 = is_in_sentence(sen2, ["广告"])
-		if behavior1 == 1 and "桌面" not in sen2 and "通知栏" not in sen2:
+		behavior11 = is_sort(7, s2, ["没", "避免", "去", "看", "无"], ["广告"])
+		behavior12 = is_sort(7, s2, ["广告"], ["没", "少", "不多"])
+		if behavior1 == 1 and "桌面" not in sen2 and "通知栏" not in sen2 and behavior11 != 1 and behavior12 != 1:
 			result = result + ',' + "(ad disruption)"
 
 		# 2、virus
 		behavior21 = is_in_sentence(sen2, ["病毒", "木马"])
 		behavior22 = is_in_list(s2, ["毒"])
 		behavior23 = is_in_list(s2, ["有", "查"])
-		if behavior21 == 1:
+		behavior24 = is_sort(4, s2, ["没"], ["毒", "木马"])
+		if behavior21 == 1 and behavior24 != 1:
 			result = result + ',' + "(virus)"
-		elif behavior22 == 1 and behavior23 == 1:
+		elif behavior22 == 1 and behavior23 == 1 and behavior24 != 1:
 			result = result + ',' + "(virus)"
 
 		# 3、privacy leak
@@ -135,14 +138,14 @@ def detect(sen2):
 
 		# 4、browser
 		behavior41 = is_in_sentence(sen2, ["浏览器"])
-		behavior42 = is_in_sentence(sen2, ["设置"])
+		behavior42 = is_sort(4, s2, ["更改"], ["设置"])
 		if behavior41 == 1 and behavior42 == 1:
 			result = result + ',' + "(browser)"
 
 		# 5、bad performance
 		behavior51 = is_in_sentence(sen2, ["死机", "卡机"])
-		behavior52 = is_similar(s2, ["手机"])
-		behavior53 = is_in_sentence(sen2, ["卡"])
+		behavior52 = is_sort(4, s2, ["手机","电话"], ["卡"])
+		behavior53 = is_sort(4, s2, ["不","绑"], ["卡"])
 		behavior54 = is_in_sentence(sen2, ["信号"])
 		behavior55 = is_similar(s2, ["差"])
 		behavior56 = is_in_sentence(sen2, ["系统崩溃", "自动关机"])
@@ -150,11 +153,11 @@ def detect(sen2):
 		behavior58 = is_sort(5, s2, ["CPU"], ["占用", "高"])
 		behavior59 = is_in_sentence(sen2, ["耗电", "电池", "发热", "费电", "没电", "发烫"])
 
-		if behavior51 == 1 and "存储卡" not in sen2 and "SD卡" not in sen2 and "sd卡" not in sen2 and "读卡器" not in sen2 and "内存卡" not in sen2:
+		if behavior51 == 1 and behavior53 != 1:
 			result = result + ',' + "(bad performance)"
-		elif behavior52 == 1 and behavior53 == 1 and "存储卡" not in sen2 and "SD卡" not in sen2 and "sd卡" not in sen2 and "读卡器" not in sen2 and "内存卡" not in sen2:
+		elif behavior52 == 1 and behavior53 != 1:
 			result = result + ',' + "(bad performance)"
-		elif behavior54 == 1 and behavior55 == 1 and "存储卡" not in sen2 and "SD卡" not in sen2 and "sd卡" not in sen2 and "读卡器" not in sen2 and "内存卡" not in sen2:
+		elif behavior54 == 1 and behavior55 == 1:
 			result = result + ',' + "(bad performance)"
 		elif behavior56 == 1:
 			result = result + ',' + "(bad performance)"
@@ -164,14 +167,14 @@ def detect(sen2):
 			result = result + ',' + "(bad performance)"
 
 		# 6、payment
-		behavior61 = is_in_sentence(sen2, ["扣", "骗", "坑"])
-		behavior62 = is_in_sentence(sen2, ["话费", "钱", "元", "块", "币"])
+		behavior61 = is_sort(4, s2, ["扣", "骗", "坑"], ["话费", "钱", "元", "块", "币"])
+		behavior62 = is_sort(4, s2, ["话费", "钱", "元", "块", "币"], ["扣", "骗", "坑"])
 		behavior63 = is_in_sentence(sen2, ["短信"])
 		behavior64 = is_in_sentence(sen2, ["订", "偷"])
 		behavior65 = is_in_sentence(sen2, ["自动"])
 		behavior66 = is_in_sentence(sen2, ["扣", "订"])
 		behavior67 = is_in_sentence(sen2, ["扣费"])
-		if behavior61 == 1 and behavior62 == 1:
+		if behavior61 == 1 or behavior62 == 1:
 			result = result + ',' + "(payment)"
 		elif behavior63 == 1 and behavior64 == 1:
 			result = result + ',' + "(payment)"
@@ -191,15 +194,11 @@ def detect(sen2):
 
 		# 8、drive-by download
 		behavior81 = is_in_sentence(sen2, ["下", "安"])
-		behavior82 = is_in_sentence(sen2, ["强迫"])
-		behavior83 = is_sort(4, s2, ["强迫"], ["下", "安"])
+		behavior82 = is_in_sentence(sen2, ["强迫", "强制"])
+		behavior83 = is_sort(4, s2, ["强迫", "强制"], ["下", "安", "下载", "安装"])
 		behavior84 = is_in_sentence(sen2, ["绑", "软件", "应用", "安装", "安装", "下载", "插件"])
 		behavior85 = is_sort(5, s2, ["绑"], ["软件", "应用", "安装", "安装", "下载", "插件"])
-		behavior86 = is_in_sentence(sen2, ["强制"])
-		behavior87 = is_sort(4, s2, ["强制"], ["下", "安"])
 		if behavior81 == 1 and behavior82 == 1 and behavior83 == 1:
-			result = result + ',' + "(drive-by download)"
-		elif behavior81 == 1 and behavior86 == 1 and behavior87 == 1:
 			result = result + ',' + "(drive-by download)"
 		elif behavior84 == 1 and behavior85 == 1:
 			result = result + ',' + "(drive-by download)"
@@ -230,9 +229,10 @@ def detect(sen2):
 		behavior121 = is_in_sentence(sen2, ["自动", "就", "总是", "强制", "强", "强行", "异常", "退", "退出"])
 		behavior122 = is_sort(2, s2, ["自动", "就", "总是", "强制", "强", "强行", "异常"], ["退", "退出"])
 		behavior123 = is_in_sentence(sen2, ["启动", "运行", "不了", "不能", "无法"])
-		behavior124 = is_sort(2, s2, ["启动", "运行"], ["不了"])
-		behavior125 = is_sort(2, s2, ["不能", "无法"], ["启动", "运行"])
-		if behavior120 == 1:
+		behavior124 = is_sort(5, s2, ["启动", "运行"], ["不了"])
+		behavior125 = is_sort(5, s2, ["不能", "无法"], ["启动", "运行"])
+		behavior126 = is_sort(7, s2, ["不会", "很少", "没", "没有"], ["闪退", "打不开", "停止运行", "崩溃", "黑屏"])
+		if behavior120 == 1 and behavior126 != 1:
 			result = result + ',' + "(fail to start)"
 		elif behavior121 == 1 and behavior122 == 1:
 			result = result + ',' + "(fail to start)"
@@ -257,19 +257,21 @@ def detect(sen2):
 
 		# 14、 retrieve content
 		behavior140 = is_in_sentence(sen2, ["获取不了数据", "获取不到数据", "空白"])
-		if behavior140 == 1:
+		behavior141 = is_sort(3, se, ["内容"], ["空白"])
+		if behavior140 == 1 or behavior141 == 1:
 			result = result + ',' + "(retrieve content)"
 
 		# 15、notification ad
 		behavior150 = is_in_sentence(sen2, ["通知栏"])
 		behavior151 = is_in_sentence(sen2, ["不能", "不可以", "不显示", "广告", "收不到", "显示不出来", "设置不了", "弄不掉"])
-		if behavior150 == 1 and behavior151 == 1:
+		behavior152 = is_sort(5, s2, ["不", "没有"], ["通知"])
+		if behavior150 == 1 and behavior151 == 1 and behavior152 != 1:
 			result = result + ',' + "(notification ad)"
 
 		# 16、fail to login
 		behavior160 = is_in_sentence(sen2, ["验证码"])
 		behavior161 = is_in_sentence(sen2, ["不"])
-		behavior162 = is_sort(3, s2, ["登", "注册"], ["不"])
+		behavior162 = is_sort(3, s2, ["登", "注册"], ["不了", "不行", "失败"])
 		behavior163 = is_sort(3, s2, ["无法", "没法", "没办法", "不能"], ["登", "注册"])
 		if behavior160 == 1 and behavior161 == 1:
 			result = result + ',' + "(fail to login)"
@@ -285,31 +287,42 @@ def detect(sen2):
 		# 18、fail to install
 		behavior180 = is_sort(3, s2, ["安", "安装"], ["不", "失败"])
 		behavior181 = is_sort(3, s2, ["无法", "不能", "不让"], ["安装", "安"])
-		if behavior180 == 1 or behavior181 == 1:
+		behavior182 = is_sort(3, s2, ["安全", "安静", "安排", "安卓"], ["不", "失败"])
+		behavior183 = is_sort(3, s2, ["安"], ["不知道", "不会"])
+		behavior184 = is_sort(3, s2, ["无法", "不能", "不让"], ["安全", "安静", "安卓"])
+		if behavior180 == 1 and behavior182 != 1 and behavior183 != 1:
+			result = result + ',' + "(fail to install)"
+		elif behavior181 == 1 and behavior184 != 1:
 			result = result + ',' + "(fail to install)"
 
 		# 19、redirection
 		behavior190 = is_sort(5, s2, ["安", "下"], ["才能","才让","才可以"])
 		behavior191 = is_in_sentence(sen2, ["激活"])
 		behavior192 = is_in_sentence(sen2, ["另一个", "再下", "下载", "其他", "别的"])
-		if behavior190 == 1:
+		behavior193 = is_sort(5, s2, ["一下", "安卓"], ["才能","才让","才可以"])
+		behavior194 = is_sort(5, s2, ["才能","才让","才可以"], ["玩", "用", "打开"])
+		behavior195 = is_sort(5, s2, ["不用"], ["安", "下"])
+		if behavior190 == 1 and behavior193 != 1 and behavior194 != 1 and behavior195 != 1:
 			result = result + ',' + "(redirection)"
 		elif behavior191 == 1 and behavior192 == 1:
 			result = result + ',' + "(redirection)"
 
 		# 20、vulgar content
 		behavior200 = is_in_sentence(sen2, ["黄色", "血腥", "暴力", "反社会", "反党", "邪教", "法轮功"])
-		if behavior200 == 1 and "催收" not in sen2 and "威胁" not in sen2:
+		behavior201 = is_in_sentence(sen2, ["催收", "威胁", "拒绝暴力", "无暴力"])
+		if behavior200 == 1 and behavior201 != 1:
 			result = result + ',' + "(vulgar content)"
 
 		# 21、inconsistency
-		behavior210 = is_sort(10, s2, ["图片", "介绍", "图案", "封面"], ["不一"])
+		behavior210 = is_sort(10, s2, ["图片", "介绍", "图案", "封面"], ["不一致", "不一样"])
 		if behavior210 == 1:
 			result = result + ',' + "(inconsistency)"
 
 		# 22、background
 		behavior220 = is_sort(4, s2, ["自动", "自己", "后台", "偷", "一直", "不停", "强制", "强行"], ["下", "安", "发短信", "备份"])
-		if behavior220 == 1:
+		behavior221 = is_sort(4, s2, ["一直"], ["使用", "下去", "下来", "安卓", "安全", "走"])
+		behavior222 = is_sort(4, s2, ["自己"], ["下去", "下来", "试了下", "下了", "上下", "下一个", "安排", "安全", "一下", "也", "下单"])
+		if behavior220 == 1 and behavior221 != 1 and behavior222 != 1:
 			result = result + ',' + "(background)"
 
 		# 23、permission abuse
@@ -320,8 +333,9 @@ def detect(sen2):
 
 		# 24、update
 		behavior240 = is_sort(4, s2, ["更新"], ["其他"])
-		behavior241 = is_in_sentence(sen2, ["更新","其他"])
-		if behavior240 == 1 and behavior241 != 1:
+		behavior241 = is_in_sentence(sen2, ["更新其他"])
+		behavior242 = is_sort(3, s2, ["更新"], ["比", "还行"])
+		if behavior240 == 1 and behavior241 != 1 and behavior242 != 1:
 			result = result + ',' + "(update)"
 
 		# 25、repackage
@@ -330,9 +344,9 @@ def detect(sen2):
 			result = result + ',' + "(repackage)"
 			
 		# 26、ranking fraud
-		behavior260 = is_in_sentence(sen2, ["评论", "好评"])
-		behavior261 = is_in_sentence(sen2, ["刷", "假"])
-		if behavior260 and behavior261 == 1:
+		behavior260 = is_sort(3, s2, ["评论", "好评"], ["刷", "假"])
+		behavior261 = is_sort(3, s2, ["刷", "假"], ["评论", "好评"])
+		if behavior260 or behavior261 == 1:
 			result = result + ',' + "(ranking fraud)"
 			
 			
