@@ -354,4 +354,4 @@ def detect(sen2):
    
 
 if __name__ == '__main__':
-    detect('评论内容')
+    detect('评论内容 ')
