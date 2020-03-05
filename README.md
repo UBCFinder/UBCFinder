@@ -1,12 +1,12 @@
-DroidPolicy is an tool that adapts text mining and NLP techniques to identify undesired behaviors from user comments and classify them into different categories summarized from the policies. 
-More specifically, DroidPolicy first extracts semantic rules from a training dataset of negative user comments using a semi-automatic process, 
+UBCFinder is an tool that adapts text mining and NLP techniques to identify undesired behavior comments and classify them based on market policies. 
+More specifically, UBCFinder first extracts semantic rules from a training dataset of user comments using a semi-automatic process, 
 and then uses the extracted semantic rules to automatically identify the undesired behaviors reflected in a given comment.
 
 1、code
 
-(1)droidpolicy_chi.py: code of DroidPolicy for Chinese comment;
+(1)UBCFinder_chi.py: code of UBCFinder for Chinese comment;
 
-(2)droidpolicy_eng.py: code of DroidPolicy for English comment;
+(2)UBCFinder_eng.py: code of UBCFinder for English comment;
 
 Usage: You need to install sysnonyms (https://github.com/huyingxi/Synonyms) and related libraries before using it.
 
@@ -16,7 +16,7 @@ pip install numpy
 
 pip install jieba
 
-You can extract the undesired behaviors by directly invoking the method detect('your comment here')
+You can extract undesired behavior comments by directly invoking the method detect('your comment here')
 
 2、Market Policy
 
