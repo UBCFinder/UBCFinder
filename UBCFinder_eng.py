@@ -329,4 +329,4 @@ def detect(sen2):
    
 
 if __name__ == '__main__':
-    detect('your comment here')
+    detect('your comment here ')
