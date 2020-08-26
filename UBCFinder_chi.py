@@ -4,7 +4,7 @@
 #
 #
 # Author: xxx
-# Date: 2018-08-12:10:22:32
+# Date: 2020-08-12:10:22:32
 #
 #=========================================================================
 
@@ -38,30 +38,12 @@ stopwords = []
 for word in open('stopwords.txt', 'r'):
     stopwords.append(word.strip())
 
-def is_similar(s2,mywords):
-    i = 0
-    for words in s2:
-        for myword in mywords:
-            if synonyms.compare1(myword, words, seg=False) > 0.7:
-                i = 1
-                break
-    return i
-
 def is_in_sentence(sen2,mywords):
     i = 0
     for myword in mywords:
         if myword in sen2:
             i = 1
             break
-    return i
-
-def is_in_list(s2,mywords):
-    i = 0
-    for words in s2:
-        for myword in mywords:
-            if myword in words:
-                i = 1
-                break
     return i
 
 def is_sort(interval,s2,mywords1,mywords2):
@@ -83,7 +65,7 @@ def is_sort(interval,s2,mywords1,mywords2):
     i = 0
     for listnum1 in list1:
         for listnum2 in list2:
-            if (listnum2-listnum1) > 0 and (listnum2-listnum1)<interval:
+            if (listnum2-listnum1) > 0 and (listnum2-listnum1)<=interval:
                 i = 1
                 break
     # print(i)
@@ -108,20 +90,16 @@ def detect(sen2):
 		result = ''
 
 		# 1、ad disruption
-		behavior1 = is_in_sentence(sen2, ["广告"])
-		behavior11 = is_sort(7, s2, ["没", "避免", "去", "看", "无"], ["广告"])
-		behavior12 = is_sort(7, s2, ["广告"], ["没", "少", "不多"])
-		if behavior1 == 1 and "桌面" not in sen2 and "通知栏" not in sen2 and behavior11 != 1 and behavior12 != 1:
+		adrule1 = is_in_sentence(sen2, ["广告"])
+		adrule11 = is_sort(7, s2, ["没", "避免", "去", "看", "无"], ["广告"])
+		adrule12 = is_sort(7, s2, ["广告"], ["没", "少", "不多"])
+		if adrule1 == 1 and "桌面" not in sen2 and "通知栏" not in sen2 and adrule11 != 1 and adrule12 != 1:
 			result = result + ',' + "(ad disruption)"
 
 		# 2、virus
-		behavior21 = is_in_sentence(sen2, ["病毒", "木马"])
-		behavior22 = is_in_list(s2, ["毒"])
-		behavior23 = is_in_list(s2, ["有", "查"])
-		behavior24 = is_sort(4, s2, ["没"], ["毒", "木马"])
-		if behavior21 == 1 and behavior24 != 1:
-			result = result + ',' + "(virus)"
-		elif behavior22 == 1 and behavior23 == 1 and behavior24 != 1:
+		virusrule1 = is_in_sentence(sen2, ["病毒"])
+		virusrule2 = is_in_sentence(sen2, ["木马"])
+		if virusrule1 == 1 or virusrule2 == 1:
 			result = result + ',' + "(virus)"
 
 		# 3、privacy leak
