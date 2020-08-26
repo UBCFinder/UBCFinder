@@ -4,7 +4,7 @@
 #
 #
 # Author: xxx
-# Date: 2018-08-12:10:22:32
+# Date: 2018-08-13:8:14:12
 #
 #=========================================================================
 
@@ -36,15 +36,6 @@ compare_ = lambda x,y,z: "%s vs %s: %f" % (x, y, synonyms.compare(x, y, seg=z)) 
 stopwords = []
 for word in open('stopwords.txt', 'r'):
     stopwords.append(word.strip())
-
-def is_similar(s2,mywords):
-    i = 0
-    for words in s2:
-        for myword in mywords:
-            if synonyms.compare1(myword, words, seg=False) > 0.7:
-                i = 1
-                break
-    return i
 
 def is_in_sentence(sen2,mywords):
     i = 0
@@ -82,7 +73,7 @@ def is_sort(interval,s2,mywords1,mywords2):
     i = 0
     for listnum1 in list1:
         for listnum2 in list2:
-            if (listnum2-listnum1) > 0 and (listnum2-listnum1)<interval:
+            if (listnum2-listnum1) > 0 and (listnum2-listnum1)<=interval:
                 i = 1
                 break
     # print(i)
@@ -106,58 +97,49 @@ def detect(sen2):
 		result = ''
 
 		# 1、ad disruption
-		behavior11 = is_in_list(s2, ["ad"])
-		behavior12 = is_in_list(s2, ["ads"])
-		if behavior11 == 1 and "notification" not in sen2:
-			result = result + ',' + "(ad disruption)"
-		elif behavior12 == 1 and "notification" not in sen2:
+		adrule1 = is_in_list(s2, ["ads"])
+		if adrule1 == 1 and "notification" not in sen2:
 			result = result + ',' + "(ad disruption)"
 
 		# 2、virus
-		behavior21 = is_in_list(s2, ["virus"])
-        	behavior22 = is_in_list(s2, ["trojan"])
-        	behavior23 = is_in_list(s2, ["malware"])
-		if behavior21 == 1:
-			result = result + ',' + "(virus)"
-		elif behavior22 == 1:
-			result = result + ',' + "(virus)"
-		elif behavior23 == 1:
+		virusrule1 = is_in_list(s2, ["virus"])
+        	virusrule12 = is_in_list(s2, ["trojan"])
+        	virusrule3 = is_in_list(s2, ["malware"])
+		if (virusrule1+virusrule2+virusrule3) != 0:
 			result = result + ',' + "(virus)"
 
 		# 3、privacy leak
-		behavior31 = is_in_list(s2, ["steal"])
-        	behavior32 = is_in_list(s2, ["info", "infomation", "data", "file"])
-        	behavior33 = is_sort(3, s2, ["steal"], ["info", "infomation"])
-        	behavior34 = is_in_list(s2, ["data", "photo", "file", "backup"])
-        	behavior35 = is_in_list(s2, ["miss", "lost"])
-        	behavior36 = is_sort(3, s2, ["data", "photo", "file", "backup"], ["miss", "lost"])
-		if behavior31 == 1 and behavior32 == 1 and behavior33 == 1:
-			result = result + ',' + "(privacy leak)"
-		elif behavior34 == 1 and behavior35 == 1 and behavior36 == 1:
+		privacyrule1 = is_sort(3, s2, ["steal"], ["info"])
+        	privacyrule2 = is_sort(3, s2, ["steal"], ["information"])
+        	privacyrule3 = is_sort(4, s2, ["steal"], ["data"])
+        	privacyrule4 = is_sort(3, s2, ["steal"], ["file"])
+        	privacyrule5 = is_sort(4, s2, ["data"], ["miss"])
+        	privacyrule6 = is_sort(5, s2, ["photo"], ["miss"])
+		privacyrule7 = is_sort(7, s2, ["file"], ["miss"])
+		privacyrule8 = is_sort(6, s2, ["backup"], ["miss"])
+		privacyrule9 = is_sort(4, s2, ["data"], ["lost"])
+        	privacyrule10 = is_sort(5, s2, ["photo"], ["lost"])
+		privacyrule11 = is_sort(6, s2, ["file"], ["lost"])
+		privacyrule12 = is_sort(7, s2, ["backup"], ["lost"])
+		if (privacyrule1+privacyrule2+privacyrule3+privacyrule4+privacyrule5+privacyrule6+privacyrule7+privacyrule8+privacyrule9+privacyrule10+privacyrule11+privacyrule12) != 0:
 			result = result + ',' + "(privacy leak)"
 
 		# 4、browser
-		behavior41 = is_in_list(s2, ["browser", "bookmark"])
-        	behavior42 = is_in_list(s2, ["modify", "hijack"])
-		if behavior41 == 1 and behavior42 == 1:
+		browserrule1 = is_sort(2, s2, ["modify"], ["browser"])
+		browserrule2 = is_sort(2, s2, ["modify"], ["bookmark"])
+		browserrule3 = is_sort(2, s2, ["hijack"], ["browser"])
+        	browserrule4 = is_sort(2, s2, ["hijack"], ["bookmark"])
+		if (browserrule1+browserrule2+browserrule3+browserrule4) != 0:
 			result = result + ',' + "(browser)"
 
 		# 5、bad performance
-		behavior51 = is_in_list(s2, ["phone"])
-        	behavior52 = is_in_list(s2, ["crash", "stuck"])
-        	behavior53 = is_in_list(s2, ["signal", "wifi"])
-        	behavior54 = is_similar(s2, ["weak"])
-        	behavior55 = is_in_list(s2, ["CPU"])
-        	behavior56 = is_similar(s2, ["slow"])
-        	behavior57 = is_in_list(s2, ["battery"])
-        	behavior57 = is_similar(s2, ["consume"])
-		if behavior51 == 1 and behavior52 == 1:
-			result = result + ',' + "(bad performance)"
-		elif behavior53 == 1 and behavior54 == 1:
-			result = result + ',' + "(bad performance)"
-		elif behavior55 == 1 and behavior56 == 1:
-			result = result + ',' + "(bad performance)"
-		elif behavior57 == 1:
+		performrule1 = is_sort(3, s2, ["phone"], ["crash"])
+        	performrule2 = is_sort(3, s2, ["phone"], ["stuck"])
+        	performrule3 = is_sort(3, s2, ["signal"], ["weak"])
+        	performrule4 = is_sort(3, s2, ["wifi"], ["weak"])
+        	performrule5 = is_sort(3, s2, ["CPU"], ["slow"])
+        	performrule6 = is_sort(3, s2, ["consume"], ["battery"])
+		if (performrule1+performrule2+performrule3+performrule4+performrule5+performrule6) != 0:
 			result = result + ',' + "(bad performance)"
 
 		# 6、payment
