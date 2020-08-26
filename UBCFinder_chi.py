@@ -99,232 +99,288 @@ def detect(sen2):
 		# 2、virus
 		virusrule1 = is_in_sentence(sen2, ["病毒"])
 		virusrule2 = is_in_sentence(sen2, ["木马"])
-		if virusrule1 == 1 or virusrule2 == 1:
+		if (virusrule1+virusrule2) != 0:
 			result = result + ',' + "(virus)"
 
 		# 3、privacy leak
-		behavior31 = is_in_sentence(sen2, ["盗"])
-		behavior32 = is_in_sentence(sen2, ["信息"])
-		behavior33 = is_sort(3, s2, ["盗"], ["信息"])
-		behavior34 = is_in_sentence(sen2, ["资料", "照片", "文件", "数据", "备份", "相册"])
-		behavior35 = is_in_sentence(sen2, ["没了", "没有了", "不见了"])
-		behavior36 = is_sort(8, s2, ["资料", "照片", "文件", "数据", "备份", "相册"], ["没", "不见"])
-		if behavior31 == 1 and behavior32 == 1 and behavior33 == 1:
-			result = result + ',' + "(privacy leak)"
-		elif behavior34 == 1 and behavior35 == 1 and behavior36 == 1:
+		privacyrule1 = is_sort(11, s2, ["备份"], ["没有"])
+		privacyrule2 = is_sort(17, s2, ["备份"], ["不见"])
+		privacyrule3 = is_sort(11, s2, ["备份"], ["没"])
+		privacyrule4 = is_sort(3, s2, ["数据"], ["不见"])
+		privacyrule5 = is_sort(10, s2, ["数据"], ["没"])
+		privacyrule6 = is_sort(1, s2, ["数据"], ["全没"])
+		privacyrule7 = is_sort(6, s2, ["东西"], ["没"])
+		privacyrule8 = is_sort(2, s2, ["资料"], ["没"])
+		privacyrule9 = is_sort(2, s2, ["资料"], ["全没"])
+		privacyrule10 = is_sort(6, s2, ["云服务"], ["不见"])
+		privacyrule11 = is_sort(6, s2, ["照片"], ["没"])
+		privacyrule12 = is_sort(4, s2, ["图库"], ["清理"])
+		privacyrule13 = is_sort(2, s2, ["盗窃"], ["信息"])
+		if (privacyrule1+privacyrule2+privacyrule3+privacyrule4+privacyrule5+privacyrule6+privacyrule7+privacyrule8+privacyrule9+privacyrule10+privacyrule11+privacyrule12+privacyrule13) != 0:
 			result = result + ',' + "(privacy leak)"
 
 		# 4、browser
-		behavior41 = is_in_sentence(sen2, ["浏览器"])
-		behavior42 = is_sort(4, s2, ["更改"], ["设置"])
-		if behavior41 == 1 and behavior42 == 1:
+		browserrule1 = is_sort(2, s2, ["更改"], ["设置"])
+		browserrule2 = is_sort(4, s2, ["更改"], ["历史"])
+		if (browserrule1 + browserrule2) != 0:
 			result = result + ',' + "(browser)"
 
 		# 5、bad performance
-		behavior51 = is_in_sentence(sen2, ["死机", "卡机"])
-		behavior52 = is_sort(4, s2, ["手机","电话"], ["卡"])
-		behavior53 = is_sort(4, s2, ["不","绑"], ["卡"])
-		behavior54 = is_in_sentence(sen2, ["信号"])
-		behavior55 = is_similar(s2, ["差"])
-		behavior56 = is_in_sentence(sen2, ["系统崩溃", "自动关机"])
-		behavior57 = is_in_sentence(sen2, ["CPU", "占用", "高"])
-		behavior58 = is_sort(5, s2, ["CPU"], ["占用", "高"])
-		behavior59 = is_in_sentence(sen2, ["耗电", "电池", "发热", "费电", "没电", "发烫"])
+		badpfrule1 = is_in_sentence(sen2, ["死机", "卡机", "费电", "耗电"])
+		badpfrule2 = is_sort(3, s2, ["CPU"], ["降"])
+		badpfrule3 = is_sort(3, s2, ["CPU"], ["高"])
+		badpfrule4 = is_sort(3, s2, ["拔"], ["电池"])
+		badpfrule5 = is_sort(3, s2, ["扣"], ["电池"])
 
-		if behavior51 == 1 and behavior53 != 1:
+		if (badpfrule1+badpfrule2+badpfrule3+badpfrule4+badpfrule5) != 0:
 			result = result + ',' + "(bad performance)"
-		elif behavior52 == 1 and behavior53 != 1:
-			result = result + ',' + "(bad performance)"
-		elif behavior54 == 1 and behavior55 == 1:
-			result = result + ',' + "(bad performance)"
-		elif behavior56 == 1:
-			result = result + ',' + "(bad performance)"
-		elif behavior57 == 1 and behavior58 == 1:
-			result = result + ',' + "(bad performance)"
-		elif behavior59 == 1 and "取电池" not in sen2 and "拔电池" not in sen2 and "扣电池" not in sen2:
-			result = result + ',' + "(bad performance)"
-
+		
 		# 6、payment
-		behavior61 = is_sort(4, s2, ["扣", "骗", "坑"], ["话费", "钱", "元", "块", "币"])
-		behavior62 = is_sort(4, s2, ["话费", "钱", "元", "块", "币"], ["扣", "骗", "坑"])
-		behavior63 = is_in_sentence(sen2, ["短信"])
-		behavior64 = is_in_sentence(sen2, ["订", "偷"])
-		behavior65 = is_in_sentence(sen2, ["自动"])
-		behavior66 = is_in_sentence(sen2, ["扣", "订"])
-		behavior67 = is_in_sentence(sen2, ["扣费"])
-		if behavior61 == 1 or behavior62 == 1:
-			result = result + ',' + "(payment)"
-		elif behavior63 == 1 and behavior64 == 1:
-			result = result + ',' + "(payment)"
-		elif behavior65 == 1 and behavior66 == 1:
-			result = result + ',' + "(payment)"
-		elif behavior67 == 1:
+		paymentrule1 = is_sort(13, s2, ["自动"], ["扣"])
+            	paymentrule2 = is_sort(10, s2, ["扣"], ["话费"])
+            	paymentrule3 = is_sort(13, s2, ["扣"], ["元"])
+            	paymentrule4 = is_sort(18, s2, ["扣"], ["钱"])
+            	paymentrule5 = is_sort(9, s2, ["扣"], ["块钱"])
+            	paymentrule6 = is_sort(2, s2, ["扣"], ["金币"])
+            	paymentrule7 = is_sort(11, s2, ["扣"], ["块"])
+            	paymentrule8 = is_sort(14, s2, ["坑"], ["话费"])
+            	paymentrule9 = is_sort(16, s2, ["坑"], ["元"])
+            	paymentrule10 = is_sort(19, s2, ["坑"], ["钱"])
+            	paymentrule11 = is_sort(11, s2, ["坑"], ["块钱"])
+            	paymentrule12 = is_sort(6, s2, ["坑"], ["金币"])
+            	paymentrule13 = is_sort(14, s2, ["坑"], ["块"])
+            	paymentrule14 = is_sort(4, s2, ["被扣"], ["话费"])
+            	paymentrule15 = is_sort(8, s2, ["被扣"], ["元"])
+            	paymentrule16 = is_sort(7, s2, ["被扣"], ["钱"])
+            	paymentrule17 = is_sort(3, s2, ["被扣"], ["块钱"])
+            	paymentrule18 = is_sort(3, s2, ["被扣"], ["块"])
+            	paymentrule19 = is_sort(12, s2, ["骗"], ["话费"])
+            	paymentrule20 = is_sort(19, s2, ["骗"], ["元"])
+            	paymentrule21 = is_sort(15, s2, ["骗"], ["钱"])
+            	paymentrule22 = is_sort(10, s2, ["骗"], ["块钱"])
+            	paymentrule23 = is_sort(10, s2, ["骗"], ["金币"])
+            	paymentrule24 = is_sort(10, s2, ["骗"], ["块"])
+		if (paymentrule1+paymentrule2+paymentrule3+paymentrule4+paymentrule5+paymentrule6+paymentrule7+paymentrule8+paymentrule9+paymentrule10+paymentrule11+paymentrule12
+		   +paymentrule13+paymentrule14+paymentrule15+paymentrule16+paymentrule17+paymentrule18+paymentrule19+paymentrule20+paymentrule21+paymentrule22+paymentrule23+paymentrule24) != 0:
 			result = result + ',' + "(payment)"
 
 		# 7、network traffic
-		behavior71 = is_in_sentence(sen2, ["流量"])
-		behavior72 = is_similar(s2, ["偷"])
-		behavior73 = is_in_sentence(sen2, ["偷"])
-		if behavior71 == 1 and behavior72 == 1:
+		networkrule1 = is_sort(4, s2, ["偷"], ["流量"])
+		networkrule2 = is_sort(8, s2, ["骗"], ["流量"])
+		if (networkrule1+networkrule2) != 0:
 			result = result + ',' + "(network traffic)"
-		elif behavior71 == 1 and behavior73 == 1:
-			result = result + ',' + "(network traffic)"
+
 
 		# 8、drive-by download
-		behavior81 = is_in_sentence(sen2, ["下", "安"])
-		behavior82 = is_in_sentence(sen2, ["强迫", "强制"])
-		behavior83 = is_sort(4, s2, ["强迫", "强制"], ["下", "安", "下载", "安装"])
-		behavior84 = is_in_sentence(sen2, ["绑", "软件", "应用", "安装", "安装", "下载", "插件"])
-		behavior85 = is_sort(5, s2, ["绑"], ["软件", "应用", "安装", "安装", "下载", "插件"])
-		if behavior81 == 1 and behavior82 == 1 and behavior83 == 1:
-			result = result + ',' + "(drive-by download)"
-		elif behavior84 == 1 and behavior85 == 1:
+		driverule1 = is_sort(1, s2, ["自动"], ["下"])
+            	driverule2 = is_sort(5, s2, ["捆绑"], ["下载"])
+            	driverule3 = is_sort(6, s2, ["捆绑"], ["安装"])
+            	driverule4 = is_sort(12, s2, ["捆绑"], ["下"])
+            	driverule5 = is_sort(6, s2, ["捆绑"], ["安"])
+            	driverule6 = is_sort(4, s2, ["强制"], ["下载"])
+            	driverule7 = is_sort(1, s2, ["强制"], ["安装"])
+            	driverule8 = is_sort(4, s2, ["强制"], ["下"])
+            	driverule9 = is_sort(1, s2, ["强制"], ["安"])
+            	driverule10 = is_sort(2, s2, ["下载"], ["其他"])
+            	driverule11 = is_sort(3, s2, ["安装"], ["其他"])
+            	driverule12 = is_sort(2, s2, ["下"], ["其他"])
+            	driverule13 = is_sort(3, s2, ["安"], ["其他"])
+            	driverule14 = is_sort(4, s2, ["后台"], ["下载"])
+            	driverule15 = is_sort(2, s2, ["后台"], ["安装"])
+            	driverule16 = is_sort(4, s2, ["后台"], ["下"])
+            	driverule17 = is_sort(2, s2, ["后台"], ["安"])
+            	driverule18 = is_sort(1, s2, ["绑定"], ["下载"])
+            	driverule19 = is_sort(1, s2, ["绑定"], ["下"])
+		if (driverule1+driverule2+driverule3+driverule4+driverule5+driverule6+driverule7+driverule8+driverule9+driverule10+driverule11+driverule12+driverule13
+		   +driverule14+driverule15+driverule16+driverule17+driverule18+driverule19) != 0:
 			result = result + ',' + "(drive-by download)"
 
+
 		# 9、hidden app
-		behavior91 = is_in_sentence(sen2, ["图标"])
-		behavior92 = is_in_sentence(sen2, ["隐藏", "消失", "找不到"])
-		if behavior91 == 1 and behavior92 == 1:
+		hiddenrule1 = is_sort(2, s2, ["图标"], ["隐藏"])
+		hiddenrule2 = is_sort(2, s2, ["图标"], ["消失"])
+		hiddenrule3 = is_sort(2, s2, ["图标"], ["找不到"])
+		if (hiddenrule1+hiddenrule2+hiddenrule3) != 0:
 			result = result + ',' + "(hidden app)"
 		
 
 		# 10、fail to uninstall
-		behavior100_list = ["无法卸", "不能卸", "卸不了", "卸载不了", "卸不掉", "卸载不掉", "卸载失败", "不可以卸", "无法删", "不能删", "删不了", "删除不了",
-					 "删不掉", "删除不掉", "删除失败", "不可以删", "卸载都不可以", "卸载都不能", "怎么卸载", "不让卸载"]
-		for behavior100 in behavior100_list:
-			if behavior100 in sen2:
-				result = result + ',' + "(fail to uninstall)"
-				break
+		uninstallrule1 = is_sort(4, s2, ["不能"], ["卸载"])
+            	uninstallrule2 = is_sort(5, s2, ["怎么"], ["卸载"])
+            	uninstallrule3 = is_sort(1, s2, ["无法"], ["卸载"])
+            	uninstallrule4 = is_sort(3, s2, ["卸载"], ["不"])
+            	uninstallrule5 = is_sort(2, s2, ["不能"], ["卸"])
+            	uninstallrule6 = is_sort(3, s2, ["怎么"], ["卸"])
+            	uninstallrule7 = is_sort(1, s2, ["无法"], ["卸"])
+            	uninstallrule8 = is_sort(4, s2, ["卸"], ["不"])
+            	uninstallrule9 = is_sort(4, s2, ["不能"], ["删"])
+            	uninstallrule10 = is_sort(1, s2, ["怎么"], ["删"])
+            	uninstallrule11 = is_sort(1, s2, ["无法"], ["删"])
+            	uninstallrule12 = is_sort(2, s2, ["删"], ["不"])
+            	uninstallrule13 = is_sort(2, s2, ["删"], ["不"])
+            	uninstallrule14 = is_sort(3, s2, ["隐藏"], ["自己"])
+            	uninstallrule15 = is_sort(1, s2, ["自己"], ["隐藏"])
+		if (uninstallrule1+uninstallrule2+uninstallrule3+uninstallrule4+uninstallrule5+uninstallrule6+uninstallrule7+uninstallrule8+uninstallrule9+uninstallrule10
+		   +uninstallrule11+uninstallrule12+uninstallrule13+uninstallrule14+uninstallrule15) != 0:
+			result = result + ',' + "(fail to uninstall)"
 
 		# 11、powerboot
-		behavior110 = is_in_sentence(sen2, ["开机", "自启", "自动启", "自起"])
-		behavior111 = is_sort(2, s2, ["开机"], ["自启", "自动启", "自起"])
-		if behavior110 == 1 and behavior111 == 1:
+		powerbootrule1 = is_sort(1, s2, ["开机"], ["自启"])
+            	powerbootrule2 = is_sort(6, s2, ["开机"], ["启动"])
+		if (powerbootrule1+powerbootrule2) ！=0:
 			result = result + ',' + "(powerboot)"
 
 		# 12、fail to start
-		behavior120 = is_in_sentence(sen2, ["闪退", "打不开", "停止运行", "崩溃", "黑屏"])
-		behavior121 = is_in_sentence(sen2, ["自动", "就", "总是", "强制", "强", "强行", "异常", "退", "退出"])
-		behavior122 = is_sort(2, s2, ["自动", "就", "总是", "强制", "强", "强行", "异常"], ["退", "退出"])
-		behavior123 = is_in_sentence(sen2, ["启动", "运行", "不了", "不能", "无法"])
-		behavior124 = is_sort(5, s2, ["启动", "运行"], ["不了"])
-		behavior125 = is_sort(5, s2, ["不能", "无法"], ["启动", "运行"])
-		behavior126 = is_sort(7, s2, ["不会", "很少", "没", "没有"], ["闪退", "打不开", "停止运行", "崩溃", "黑屏"])
-		if behavior120 == 1 and behavior126 != 1:
-			result = result + ',' + "(fail to start)"
-		elif behavior121 == 1 and behavior122 == 1:
-			result = result + ',' + "(fail to start)"
-		elif behavior123 == 1 and behavior124 == 1:
-			result = result + ',' + "(fail to start)"
-		elif behavior123 == 1 and behavior125 == 1:
+		startrule1 = is_in_sentence(sen2, ["闪退", "打不开", "进不去", "崩溃"])
+            	startrule2 = is_sort(1, s2, ["运行"], ["不了"])
+            	startrule3 = is_sort(1, s2, ["停止"], ["运行"])
+            	startrule4 = is_sort(1, s2, ["自动"], ["停止"])
+            	startrule5 = is_sort(1, s2, ["自动"], ["退出"])
+		if (startrule1+startrule2+startrule3+startrule4+startrule5) != 0:
 			result = result + ',' + "(fail to start)"
 
 		# 13、fail to exit
-		behavior130 = is_in_sentence(sen2, ["退", "不出", "不了"])
-		behavior131 = is_sort(1, s2, ["退"], ["不出", "不了"])
-		behavior132 = is_in_sentence(sen2, ["不能", "无法", "怎么", "不让", "没办法", "退出"])
-		behavior133 = is_sort(2, s2, ["不能", "无法", "怎么", "不让", "没办法"], ["退出"])
-		behavior134 = is_in_sentence(sen2, ["后台", "运行"])
-		behavior135 = is_sort(3, s2, ["后台"], ["运行"])
-		if behavior130 == 1 and behavior131 == 1:
-			result = result + ',' + "(fail to exit)"
-		elif behavior132 == 1 and behavior133 == 1:
-			result = result + ',' + "(fail to exit)"
-		elif behavior134 == 1 and behavior135 == 1:
+		exitrule1 = is_sort(1, s2, ["退"], ["不出"])
+		exitrule2 = is_sort(1, s2, ["退"], ["不了"])
+		exitrule3 = is_sort(2, s2, ["不能"], ["退出"])
+		exitrule4 = is_sort(2, s2, ["无法"], ["退出"])
+		exitrule5 = is_sort(2, s2, ["怎么"], ["退出"])
+		exitrule6 = is_sort(2, s2, ["不让"], ["退出"])
+		exitrule7 = is_sort(3, s2, ["后台"], ["运行"])
+		if (exitrule1+exitrule2+exitrule3+exitrule4+exitrule5+exitrule6+exitrule7) != 0:
 			result = result + ',' + "(fail to exit)"
 
 		# 14、 retrieve content
-		behavior140 = is_in_sentence(sen2, ["获取不了数据", "获取不到数据", "空白"])
-		behavior141 = is_sort(3, se, ["内容"], ["空白"])
-		if behavior140 == 1 or behavior141 == 1:
+		contentrule1 = is_in_sentence(sen2, ["空白"])
+            	contentrule2 = is_sort(2, s2, ["数据"], ["不了"])
+            	contentrule3 = is_sort(2, s2, ["不了"], ["数据"])
+		if (contentrule1+contentrule2+contentrule3) != 0:
 			result = result + ',' + "(retrieve content)"
 
 		# 15、notification ad
-		behavior150 = is_in_sentence(sen2, ["通知栏"])
-		behavior151 = is_in_sentence(sen2, ["不能", "不可以", "不显示", "广告", "收不到", "显示不出来", "设置不了", "弄不掉"])
-		behavior152 = is_sort(5, s2, ["不", "没有"], ["通知"])
-		if behavior150 == 1 and behavior151 == 1 and behavior152 != 1:
+		notifirule1 = is_sort(4, s2, ["通知栏"], ["广告"])
+            	notifirule2 = is_sort(4, s2, ["通知栏"], ["不掉"])
+		notifirule2 = is_sort(4, s2, ["通知栏"], ["收不到"])
+		if (notifirule1+notifirule2) != 0:
 			result = result + ',' + "(notification ad)"
 
 		# 16、fail to login
-		behavior160 = is_in_sentence(sen2, ["验证码"])
-		behavior161 = is_in_sentence(sen2, ["不"])
-		behavior162 = is_sort(3, s2, ["登", "注册"], ["不了", "不行", "失败"])
-		behavior163 = is_sort(3, s2, ["无法", "没法", "没办法", "不能"], ["登", "注册"])
-		if behavior160 == 1 and behavior161 == 1:
-			result = result + ',' + "(fail to login)"
-		elif behavior162 == 1 or behavior163 == 1:
+		loginrule1 = is_sort(6, s2, ["验证码"], ["不"])
+            	loginrule2 = is_sort(3, s2, ["验证码"], ["不了"])
+            	loginrule3 = is_sort(1, s2, ["登录"], ["不上"])
+            	loginrule4 = is_sort(3, s2, ["不能"], ["登录"])
+            	loginrule5 = is_sort(3, s2, ["登录"], ["不"])
+            	loginrule6 = is_sort(1, s2, ["登录"], ["不了"])
+            	loginrule7 = is_sort(1, s2, ["登陆"], ["不上"])
+            	loginrule8 = is_sort(3, s2, ["不能"], ["登陆"])
+            	loginrule9 = is_sort(4, s2, ["登陆"], ["不"])
+            	loginrule10 = is_sort(3, s2, ["登陆"], ["不了"])
+            	loginrule11 = is_sort(1, s2, ["注册"], ["不上"])
+            	loginrule12 = is_sort(1, s2, ["不能"], ["注册"])
+            	loginrule13 = is_sort(3, s2, ["注册"], ["不"])
+            	loginrule14 = is_sort(3, s2, ["注册"], ["不了"])
+		if (loginrule1+loginrule2+loginrule3+loginrule4+loginrule5+loginrule6+loginrule7+loginrule8+loginrule9+loginrule10+loginrule11+loginrule12+loginrule13+loginrule14) != 0:
 			result = result + ',' + "(fail to login)"
 
 		# 17、add shortcuts
-		behavior170 = is_in_sentence(sen2, ["桌面"])
-		behavior171 = is_in_sentence(sen2, ["广告"])
-		if behavior170 == 1 and behavior171 == 1:
+		shortcutrule1 = is_in_sentence(sen2, ["桌面"])
+            	shortcutrule2 = is_in_sentence(sen2, ["广告"])
+		if (shortcutrule1+shortcutrule2) != 0:
 			result = result + ',' + "(add shortcuts)"
 
 		# 18、fail to install
-		behavior180 = is_sort(3, s2, ["安", "安装"], ["不", "失败"])
-		behavior181 = is_sort(3, s2, ["无法", "不能", "不让"], ["安装", "安"])
-		behavior182 = is_sort(3, s2, ["安全", "安静", "安排", "安卓"], ["不", "失败"])
-		behavior183 = is_sort(3, s2, ["安"], ["不知道", "不会"])
-		behavior184 = is_sort(3, s2, ["无法", "不能", "不让"], ["安全", "安静", "安卓"])
-		if behavior180 == 1 and behavior182 != 1 and behavior183 != 1:
-			result = result + ',' + "(fail to install)"
-		elif behavior181 == 1 and behavior184 != 1:
+		installrule1 = is_sort(2, s2, ["不能"], ["安装"])
+            	installrule2 = is_sort(1, s2, ["安装"], ["失败"])
+            	installrule3 = is_sort(2, s2, ["怎么"], ["安装"])
+            	installrule4 = is_sort(1, s2, ["安装"], ["不上"])
+            	installrule5 = is_sort(2, s2, ["不能"], ["安"])
+            	installrule6 = is_sort(1, s2, ["安"], ["失败"])
+            	installrule7 = is_sort(2, s2, ["不能"], ["安"])
+            	installrule8 = is_sort(1, s2, ["安"], ["不上"])
+		if (installrule1+installrule2+installrule3+installrule4+installrule5+installrule6+installrule7+installrule8) != 0:
 			result = result + ',' + "(fail to install)"
 
 		# 19、redirection
-		behavior190 = is_sort(5, s2, ["安", "下"], ["才能","才让","才可以"])
-		behavior191 = is_in_sentence(sen2, ["激活"])
-		behavior192 = is_in_sentence(sen2, ["另一个", "再下", "下载", "其他", "别的"])
-		behavior193 = is_sort(5, s2, ["一下", "安卓"], ["才能","才让","才可以"])
-		behavior194 = is_sort(5, s2, ["才能","才让","才可以"], ["玩", "用", "打开"])
-		behavior195 = is_sort(5, s2, ["不用"], ["安", "下"])
-		if behavior190 == 1 and behavior193 != 1 and behavior194 != 1 and behavior195 != 1:
-			result = result + ',' + "(redirection)"
-		elif behavior191 == 1 and behavior192 == 1:
+		redirectrule1 = is_sort(7, s2, ["要"], ["激活"])
+            	redirectrule2 = is_sort(5, s2, ["其他"], ["激活"])
+            	redirectrule3 = is_sort(8, s2, ["下"], ["激活"])
+            	redirectrule4 = is_sort(8, s2, ["下载"], ["激活"])
+            	redirectrule5 = is_sort(10, s2, ["安装"], ["激活"])
+		if (redirectrule1+redirectrule2+redirectrule3+redirectrule4+redirectrule5) != 0:
 			result = result + ',' + "(redirection)"
 
 		# 20、vulgar content
-		behavior200 = is_in_sentence(sen2, ["黄色", "血腥", "暴力", "反社会", "反党", "邪教", "法轮功"])
-		behavior201 = is_in_sentence(sen2, ["催收", "威胁", "拒绝暴力", "无暴力"])
-		if behavior200 == 1 and behavior201 != 1:
+		vulgarrule1 = is_in_sentence(sen2, ["黄色", "血腥", "暴力"])
+		if vulgarrule1 != 0:
 			result = result + ',' + "(vulgar content)"
 
 		# 21、inconsistency
-		behavior210 = is_sort(10, s2, ["图片", "介绍", "图案", "封面"], ["不一致", "不一样"])
-		if behavior210 == 1:
+		inconsistrule1 = is_sort(7, s2, ["图片"], ["不一样"])
+		inconsistrule2 = is_sort(7, s2, ["介绍"], ["不一样"])
+		inconsistrule3 = is_sort(7, s2, ["封面"], ["不一样"])
+		if (inconsistrule1+inconsistrule2+inconsistrule3) != 0:
 			result = result + ',' + "(inconsistency)"
 
 		# 22、background
-		behavior220 = is_sort(4, s2, ["自动", "自己", "后台", "偷", "一直", "不停", "强制", "强行"], ["下", "安", "发短信", "备份"])
-		behavior221 = is_sort(4, s2, ["一直"], ["使用", "下去", "下来", "安卓", "安全", "走"])
-		behavior222 = is_sort(4, s2, ["自己"], ["下去", "下来", "试了下", "下了", "上下", "下一个", "安排", "安全", "一下", "也", "下单"])
-		if behavior220 == 1 and behavior221 != 1 and behavior222 != 1:
+		backgroundrule1 = is_sort(3, s2, ["自动"], ["下载"])
+            	backgroundrule2 = is_sort(2, s2, ["自动"], ["安装"])
+            	backgroundrule3 = is_sort(3, s2, ["自动"], ["下"])
+            	backgroundrule4 = is_sort(4, s2, ["自动"], ["安"])
+            	backgroundrule5 = is_sort(2, s2, ["自动"], ["发短信"])
+            	backgroundrule6 = is_sort(3, s2, ["自己"], ["下载"])
+            	backgroundrule7 = is_sort(2, s2, ["自己"], ["安装"])
+            	backgroundrule8 = is_sort(3, s2, ["自己"], ["下"])
+            	backgroundrule9 = is_sort(2, s2, ["自己"], ["安"])
+            	backgroundrule10 = is_sort(1, s2, ["自己"], ["发短信"])
+            	backgroundrule11 = is_sort(4, s2, ["强制"], ["下载"])
+            	backgroundrule12 = is_sort(1, s2, ["强制"], ["安装"])
+            	backgroundrule13 = is_sort(3, s2, ["强制"], ["下"])
+            	backgroundrule14 = is_sort(1, s2, ["强制"], ["安"])
+            	backgroundrule15 = is_sort(4, s2, ["一直"], ["下载"])
+            	backgroundrule16 = is_sort(3, s2, ["一直"], ["安装"])
+            	backgroundrule17 = is_sort(4, s2, ["一直"], ["下"])
+            	backgroundrule18 = is_sort(2, s2, ["一直"], ["安"])
+            	backgroundrule19 = is_sort(3, s2, ["不停"], ["下载"])
+            	backgroundrule20 = is_sort(3, s2, ["不停"], ["安装"])
+            	backgroundrule21 = is_sort(3, s2, ["不停"], ["下"])
+            	backgroundrule22 = is_sort(3, s2, ["不停"], ["安"])
+            	backgroundrule23 = is_sort(3, s2, ["不停"], ["发短信"])
+            	backgroundrule24 = is_sort(3, s2, ["后台"], ["下载"])
+            	backgroundrule25 = is_sort(3, s2, ["后台"], ["下载"])
+            	backgroundrule26 = is_sort(3, s2, ["后台"], ["下"])
+            	backgroundrule27 = is_sort(3, s2, ["后台"], ["安"])
+            	backgroundrule28 = is_sort(3, s2, ["后台"], ["发短信"])
+		if (backgroundrule1+backgroundrule2+backgroundrule3+backgroundrule4+backgroundrule5+backgroundrule6+backgroundrule7+backgroundrule8+backgroundrule9
+		   +backgroundrule10+backgroundrule11+backgroundrule12+backgroundrule13+backgroundrule14+backgroundrule15+backgroundrule16+backgroundrule17+backgroundrule18
+		   +backgroundrule19+backgroundrule20+backgroundrule21+backgroundrule22+backgroundrule23+backgroundrule24+backgroundrule25+backgroundrule26+backgroundrule27
+		   +backgroundrule28) != 0:
 			result = result + ',' + "(background)"
 
 		# 23、permission abuse
-		behavior230 = is_sort(5, s2, ["强行", "一直", "要"], ["权限"])
-		behavior231 = is_sort(5, s2, ["权限"], ["问题", "多"])
-		if behavior230 == 1 or behavior231 == 1:
+		premisisonrule1 = is_sort(5, s2, ["要"], ["权限"])
+		if premisisonrule1 == 1:
 			result = result + ',' + "(permission abuse)"
 
 		# 24、update
-		behavior240 = is_sort(4, s2, ["更新"], ["其他"])
-		behavior241 = is_in_sentence(sen2, ["更新其他"])
-		behavior242 = is_sort(3, s2, ["更新"], ["比", "还行"])
-		if behavior240 == 1 and behavior241 != 1 and behavior242 != 1:
+		updaterule1 = is_sort(4, s2, ["更新"], ["其他"])
+		if updaterule1 == 1:
 			result = result + ',' + "(update)"
 
 		# 25、repackage
-		behavior250 = is_in_sentence(sen2, ["盗版", "破解版"])
-		if behavior250 == 1:
+		repackagerule1 = is_in_sentence(sen2, ["盗版", "破解版"])
+		if repackagerule1 == 1:
 			result = result + ',' + "(repackage)"
 			
 		# 26、ranking fraud
-		behavior260 = is_sort(3, s2, ["评论", "好评"], ["刷", "假"])
-		behavior261 = is_sort(3, s2, ["刷", "假"], ["评论", "好评"])
-		if behavior260 or behavior261 == 1:
+		behavior260 = is_sort(3, s2, ["评论"], ["假"])
+		behavior260 = is_sort(4, s2, ["评论"], ["刷"])
+		behavior260 = is_sort(3, s2, ["好评"], ["假"])
+		behavior260 = is_sort(5, s2, ["好评"], ["刷"])
+		behavior261 = is_sort(2, s2, ["刷"], ["评论"])
+		behavior261 = is_sort(2, s2, ["刷"], ["好评"])
+		behavior261 = is_sort(2, s2, ["假"], ["评论"])
+		behavior261 = is_sort(2, s2, ["假"], ["好评"])
+		if (behavior260+behavior261) != 0:
 			result = result + ',' + "(ranking fraud)"
 			
 			
