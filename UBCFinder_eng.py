@@ -193,8 +193,8 @@ def detect(sen2):
 		uninstallrule2 = is_sort(4, s2, ["fail"], ["remove"])
 		uninstallrule3 = is_sort(4, s2, ["uninstall"], ["fail"])
 		uninstallrule4 = is_sort(5, s2, ["remove"], ["fail"])
-		uninstallrule5 = is_sort(5, s2, ["can not"], ["uninstall"])
-        	uninstallrule6 = is_sort(5, s2, ["can not"], ["remove"])
+		uninstallrule5 = is_sort(5, s2, ["cannot"], ["uninstall"])
+        	uninstallrule6 = is_sort(5, s2, ["cannot"], ["remove"])
 		uninstallrule7 = is_sort(6, s2, ["how"], ["uninstall"])
 		uninstallrule8 = is_sort(5, s2, ["how"], ["remove"])
 		uninstallrule9 = is_sort(3, s2, ["forbid"], ["uninstall"])
@@ -215,102 +215,117 @@ def detect(sen2):
         	startrule2 = is_sort(2, s2, ["stop"], ["running"])
         	startrule3 = is_sort(6, s2, ["running"], ["stop"])
         	startrule4 = is_sort(4, s2, ["fail"], ["start"])
-        	startrule5 = is_sort(3, s2, ["can not"], ["start"])
+        	startrule5 = is_sort(3, s2, ["cannot"], ["start"])
         	startrule6 = is_sort(7, s2, ["start"], ["fail"])
         	startrule7 = is_in_list(s2, ["exception"])
 		if (startrule1+startrule2+startrule3+startrule4+startrule5+startrule6+startrule7) != 0:
 			result = result + ',' + "(fail to start)"
 
 		# 13、fail to exit
-		behavior130 = is_in_list(s2, ["cannot", "exit", "close", "shut"])
-        	behavior131 = is_sort(2, s2, ["cannot"], ["exit", "close", "shut"])
-		if behavior130 == 1 and behavior131 == 1:
+		exitrule1 = is_sort(2, s2, ["cannot"], ["exit"])
+		exitrule2 = is_sort(2, s2, ["cannot"], ["close"])
+		exitrule3 = is_sort(2, s2, ["cannot"], ["shut"])
+        	if (exitrule1+exitrule2+exitrule3) != 0:
 			result = result + ',' + "(fail to exit)"
 
 		# 14、 retrieve content
-		behavior140 = is_in_list(s2, ["404", "blank"])
-        	behavior141 = is_in_list(s2, ["fail", "cannot", "data"])
-        	behavior142 = is_sort(2, s2, ["fail", "cannot"], ["data"])
-		
-		if behavior140 == 1:
-			result = result + ',' + "(retrieve content)"
-		elif behavior141 == 1 and behavior142 == 1:
+		contentrule1 = is_in_list(s2, ["404", "blank"])
+        	contentrule2 = is_sort(6, s2, ["fail"], ["data"])
+        	contentrule3 = is_sort(7, s2, ["cannot"], ["data"])
+		if (contentrule1+contentrule2+contentrule3) != 0:
 			result = result + ',' + "(retrieve content)"
 
 		# 15、notification ad
-		behavior150 = is_in_list(s2, ["notification"])
-        	behavior151 = is_in_list(s2, ["ad", "ads", "full", "remove"])
-		if behavior150 == 1 and behavior151 == 1:
+		notifirule1 = is_sort(3, s2, ["notification"], ["ads"])
+		notifirule2 = is_sort(2, s2, ["notification"], ["full"])
+		notifirule3 = is_sort(4, s2, ["remove"], ["notification"])
+		if (notifirule1+notifirule2+notifirule3) != 0:
 			result = result + ',' + "(notification ad)"
 
 		# 16、fail to login
-		behavior160 = is_in_list(s2, ["cannot", "fail", "how"])
-        	behavior161 = is_in_list(s2, ["login", "register"])
-		if behavior160 == 1 and behavior161 == 1:
+		loginrule1 = is_sort(2, s2, ["cannot"], ["login"])
+		loginrule2 = is_sort(2, s2, ["cannot"], ["register"])
+		loginrule3 = is_sort(3, s2, ["fail"], ["login"])
+		loginrule4 = is_sort(2, s2, ["fail"], ["register"])
+		loginrule5 = is_sort(5, s2, ["register"], ["fail"])
+		loginrule6 = is_sort(3, s2, ["how"], ["login"])
+        	loginrule7 = is_sort(3, s2, ["how"], ["register"])
+		if (loginrule1+loginrule2+loginrule3+loginrule4+loginrule5+loginrule6+loginrule7) != 0:
 			result = result + ',' + "(fail to login)"
 		
 		# 17、add shortcuts
-		behavior170 = is_in_list(s2, ["add", "create"])
-        	behavior171 = is_in_list(s2, ["shortcut", "icon"])
-		if behavior170 == 1 and behavior171 == 1:
+		shorcutrule1 = is_sort(3, s2, ["add"], ["shortcut"])
+		shorcutrule2 = is_sort(2, s2, ["create"], ["shortcut"])
+		shorcutrule3 = is_sort(2, s2, ["create"], ["icon"])
+        	shorcutrule4 = is_sort(2, s2, ["add"], ["icon"])
+		if (shorcutrule1+shorcutrule2+shorcutrule3+shorcutrule4) != 0:
 			result = result + ',' + "(add shortcuts)"
 
 		# 18、fail to install
-		behavior180 = is_in_list(s2, ["cannot", "fail", "how"])
-        	behavior181 = is_in_list(s2, ["install"])
-		if behavior180 == 1 and behavior181 == 1:
+        	installrule1 = is_sort(2, s2, ["fail"], ["install"])
+		installrule2 = is_sort(4, s2, ["install"], ["fail"])
+		installrule3 = is_sort(2, s2, ["how"], ["install"])
+		installrule4 = is_sort(3, s2, ["cannot"], ["install"])
+		if (installrule1+installrule2+installrule3+installrule4) != 0:
 			result = result + ',' + "(fail to install)"
 
 		# 19、redirection
-		behavior190 = is_in_list(s2, ["redirect"])
-        	behavior191 = is_in_list(s2, ["other"])
-		if behavior190 == 1 and behavior191 == 1:
+		redirectrule1 = is_sort(3, s2, ["redirect"], ["other"])
+		if redirectrule1 != 0:
 			result = result + ',' + "(redirection)"
 
 		# 20、vulgar content
-		behavior200 = is_in_sentence(sen2, [" nude", "masturbat", "racist", " porn", "creep", "pervert", "pedophile", "horny", "penis", " dick", " sex"])
-		if behavior200 == 1:
+		vulgarrule1 = is_in_sentence(sen2, [" nude", "masturbat", "racist", " porn", "creep", "pervert", "pedophile", "horny", "penis", " dick", " sex"])
+		if vulgarrule1 != 0:
 			result = result + ',' + "(vulgar content)"
 
 		# 21、inconsistency
-		behavior210 = is_in_list(s2, ["inconsistent"])
-        	behavior211 = is_in_list(s2, ["not"])
-        	behavior212 = is_in_list(s2, ["describe"])
-		if behavior210 == 1:
-			result = result + ',' + "(inconsistency)"
-		elif behavior211 == 1 and behavior212 == 1:
+		inconsistrule1 = is_in_list(s2, ["inconsistent"])
+        	inconsistrule2 = is_sort(7, s2, ["not"], ["describe"])
+		if (inconsistrule1+inconsistrule2) != 0:
 			result = result + ',' + "(inconsistency)"
 
 		# 22、background
-		behavior220 = is_in_list(s2, ["itself", "background", "alwalys"])
-        	behavior221 = is_in_list(s2, ["download", "sms", "backup"])
-		if behavior220 == 1 and behavior221 == 1:
+		backgroudrule1 = is_sort(4, s2, ["alwalys"], ["download"])
+		backgroudrule2 = is_sort(3, s2, ["backup"], ["itself"])
+		backgroudrule3 = is_sort(5, s2, ["download"], ["background"])
+		backgroudrule4 = is_sort(7, s2, ["sms"], ["background"])
+		backgroudrule5 = is_sort(6, s2, ["sms"], ["itself"])
+		backgroudrule6 = is_sort(5, s2, ["download"], ["itself"])
+		backgroudrule7 = is_sort(3, s2, ["backup"], ["background"])
+		if (backgroudrule1+backgroudrule2+backgroudrule3+backgroudrule4+backgroudrule5+backgroudrule6+backgroudrule7) != 0:
 			result = result + ',' + "(background)"
 
 		# 23、permission abuse
-		behavior230 = is_sort(3, s2, ["ask", "unnecessary"], ["permission"])
-		behavior231 = is_sort(3, s2, ["require", "need", "want", "give"], ["permission", "access to"])
-		behavior232 = is_sort(3, s2, ["permission", "access to"], ["require", "need", " file", "photo", "record", "media", "picture"])
-		if behavior230 == 1:
-			result = result + ',' + "(permission abuse)"
-		elif behavior231 == 1 or behavior232 == 1:
+		permissionrule1 = is_sort(5, s2, ["ask"], ["permission"])
+		permissionrule2 = is_sort(2, s2, ["unnecessary"], ["permission"])
+		permissionrule3 = is_sort(6, s2, ["require"], ["permission"])
+		permissionrule4 = is_sort(6, s2, ["need"], ["permission"])
+		permissionrule5 = is_sort(7, s2, ["want"], ["permission"])
+		permissionrule6 = is_sort(7, s2, ["give"], ["permission"])
+		if (permissionrule1+permissionrule2+permissionrule3+permissionrule4+permissionrule5+permissionrule6) != 0:
 			result = result + ',' + "(permission abuse)"
 
 		# 24、update
-		behavior240 = is_sort(3, s2, ["update"], ["other"])
-        	behavior241 = is_in_list(s2, ["update", "other"])
-		if behavior240 == 1 and behavior241 == 1:
+		updaterule1 = is_sort(3, s2, ["update"], ["other"])
+		if updaterule1 != 0:
 			result = result + ',' + "(update)"
 
 		# 25、repackage
-		behavior250 = is_in_list(s2, ["piracy", "repackage", "copy", "plagiarize"])
-		if behavior250 == 1:
+		repackagerule1 = is_in_list(s2, ["piracy", "repackage", "copy", "plagiarize"])
+		if repackagerule1 != 0:
 			result = result + ',' + "(repackage)"
 			
 		# 26、ranking fraud
-		behavior260 = is_in_list(s2, ["comment", "review"])
-        	behavior261 = is_in_list(s2, ["fake", "sponsor", "sell", "buy"])
-		if behavior260 and behavior261 == 1:
+		rankingrule1 = is_sort(3, s2, ["fake"], ["comment"])
+		rankingrule2 = is_sort(4, s2, ["sponsor"], ["comment"])
+		rankingrule3 = is_sort(3, s2, ["fake"], ["review"])
+		rankingrule4 = is_sort(3, s2, ["sponsor"], ["review"])
+		rankingrule5 = is_sort(5, s2, ["sell"], ["comment"])
+		rankingrule6 = is_sort(3, s2, ["sell"], ["review"])
+		rankingrule7 = is_sort(5, s2, ["buy"], ["comment"])
+		rankingrule8 = is_sort(5, s2, ["buy"], ["review"])
+		if (rankingrule1+rankingrule2+rankingrule3+rankingrule4+rankingrule5+rankingrule6+rankingrule7+rankingrule8) != 0:
 			result = result + ',' + "(ranking fraud)"
 			
 			
