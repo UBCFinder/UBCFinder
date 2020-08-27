@@ -143,25 +143,42 @@ def detect(sen2):
 			result = result + ',' + "(bad performance)"
 
 		# 6、payment
-		behavior61 = is_in_list(s2, ["fraud", "cheat", "deceive"])
-        	behavior62 = is_in_list(s2, ["bill", "money", "payment", "$"])
-		
-		if behavior61 == 1 and behavior62 == 1:
+		paymentrule1 = is_sort(7, s2, ["cheat"], ["bill"])
+		paymentrule2 = is_sort(11, s2, ["cheat"], ["money"])
+		paymentrule3 = is_sort(6, s2, ["cheat"], ["payment"])
+		paymentrule4 = is_sort(9, s2, ["cheat"], ["$"])
+		paymentrule5 = is_sort(12, s2, ["deceive"], ["bill"])
+		paymentrule6 = is_sort(11, s2, ["deceive"], ["money"])
+		paymentrule7 = is_sort(4, s2, ["deceive"], ["payment"])
+		paymentrule8 = is_sort(6, s2, ["deceive"], ["$"])
+		paymentrule9 = is_sort(2, s2, ["payment"], ["fraud"])
+		paymentrule10 = is_sort(2, s2, ["bill"], ["fraud"])
+		paymentrule11 = is_sort(15, s2, ["fraud"], ["$"])
+		paymentrule12 = is_sort(17, s2, ["fraud"], ["money"])
+
+		if (paymentrule1+paymentrule2+paymentrule3+paymentrule4+paymentrule5+paymentrule6+paymentrule7+paymentrule8+paymentrule9+paymentrule10+paymentrule11+paymentrule12) != 0:
 			result = result + ',' + "(payment)"
 
 		# 7、network traffic
-		behavior71 = is_in_list(s2, ["network", "traffic"])
-        	behavior72 = is_similar(s2, ["consume"])
+		networkrule1 = is_sort(3, s2, ["consume"], ["traffic"])
+        	networkrule2 = is_sort(3, s2, ["consume"], ["network"])
 		
-		if behavior71 == 1 and behavior72 == 1:
+		if (networkrule1+networkrule2) != 0:
 			result = result + ',' + "(network traffic)"
 		
 		# 8、drive-by download
-		behavior81 = is_in_list(s2, ["download", "install"])
-        	behavior82 = is_in_list(s2, ["app", "plug-in", "it"])
-        	behavior83 = is_in_list(s2, ["force", "let", "induce"])
+		driverule1 = is_sort(2, s2, ["download"], ["itself"])
+		driverule2 = is_sort(4, s2, ["force"], ["download"])
+		driverule3 = is_sort(4, s2, ["let"], ["download"])
+		driverule4 = is_sort(3, s2, ["induce"], ["download"])
+		driverule5 = is_sort(2, s2, ["install"], ["itself"])
+		driverule6 = is_sort(4, s2, ["force"], ["install"])
+		driverule7 = is_sort(3, s2, ["let"], ["install"])
+		driverule8 = is_sort(4, s2, ["induce"], ["install"])
+		driverule9 = is_sort(3, s2, ["download"], ["plug-in"])
+        	driverule10 = is_sort(3, s2, ["install"], ["plug-in"])
 
-		if behavior81 == 1 and behavior82 == 1 and behavior83 == 1:
+		if (driverule1+driverule2+driverule3+driverule4+driverule5+driverule6+driverule7+driverule8+driverule9+driverule10) != 0:
 			result = result + ',' + "(drive-by download)"
 
 		# 9、hidden app
@@ -172,46 +189,36 @@ def detect(sen2):
 		
 
 		# 10、fail to uninstall
-		behavior100 = is_in_list(s2, ["fail"])
-        	behavior101 = is_in_list(s2, ["cannot"])
-        	behavior102 = is_in_list(s2, ["how"])
-        	behavior103 = is_in_list(s2, ["forbid"])
-        	behavior104 = is_in_list(s2, ["uninstall", "remove"])
-        	behavior105 = is_sort(2, s2, ["cannot"], ["uninstall", "remove"])
-        	behavior106 = is_sort(2, s2, ["how"], ["uninstall", "remove"])
-        	behavior107 = is_sort(3, s2, ["fail"], ["uninstall", "remove"])
-        	behavior108 = is_sort(3, s2, ["uninstall", "remove"], ["fail"])
-        	behavior109 = is_sort(3, s2, ["forbid"], ["uninstall", "remove"])
-        	behavior110 = is_sort(3, s2, ["uninstall", "remove"], ["forbid"])
-		if behavior100 == 1 and behavior104 == 1 and (behavior107 == 1 or behavior108 == 1):
-			result = result + ',' + "(fail to uninstall)"
-		elif behavior103 == 1 and behavior104 == 1 and (behavior109 == 1 or behavior110 == 1):
-			result = result + ',' + "(fail to uninstall)"
-		elif behavior101 == 1 and behavior104 == 1 and behavior105 == 1:
-			result = result + ',' + "(fail to uninstall)"
-		elif behavior102 == 1 and behavior104 == 1 and behavior106 == 1:
+		uninstallrule1 = is_sort(3, s2, ["fail"], ["uninstall"])
+		uninstallrule2 = is_sort(4, s2, ["fail"], ["remove"])
+		uninstallrule3 = is_sort(4, s2, ["uninstall"], ["fail"])
+		uninstallrule4 = is_sort(5, s2, ["remove"], ["fail"])
+		uninstallrule5 = is_sort(5, s2, ["can not"], ["uninstall"])
+        	uninstallrule6 = is_sort(5, s2, ["can not"], ["remove"])
+		uninstallrule7 = is_sort(6, s2, ["how"], ["uninstall"])
+		uninstallrule8 = is_sort(5, s2, ["how"], ["remove"])
+		uninstallrule9 = is_sort(3, s2, ["forbid"], ["uninstall"])
+		uninstallrule10 = is_sort(4, s2, ["forbid"], ["remove"])
+		uninstallrule11 = is_sort(4, s2, ["uninstall"], ["forbid"])
+		uninstallrule12 = is_sort(3, s2, ["remove"], ["forbid"])
+		if (uninstallrule1+uninstallrule2+uninstallrule3+uninstallrule4+uninstallrule5+uninstallrule6+uninstallrule7+uninstallrule8+uninstallrule9
+		   +uninstallrule10+uninstallrule11+uninstallrule12) != 0:
 			result = result + ',' + "(fail to uninstall)"
 			
 		# 11、powerboot
-		behavior110 = is_in_list(s2, ["powerboot"])
-		if behavior110 == 1:
+		powerbootrule1 = is_in_list(s2, ["powerboot"])
+		if powerbootrule1 != 0:
 			result = result + ',' + "(powerboot)"
 
 		# 12、fail to start
-		behavior120 = is_in_list(s2, ["crash", "stuck"])
-        	behavior121 = is_in_list(s2, ["stop"])
-        	behavior122 = is_in_list(s2, ["running"])
-        	behavior123 = is_in_list(s2, ["fail", "cannot"])
-        	behavior124 = is_in_list(s2, ["start"])
-        	behavior125 = is_sort(2, s2, ["fail", "cannot"], ["start"])
-        	behavior126 = is_in_list(s2, ["exception"])
-		if behavior120 == 1 and "phone" not in sen2:
-			result = result + ',' + "(fail to start)"
-		elif behavior121 == 1 and behavior122 == 1:
-			result = result + ',' + "(fail to start)"
-		elif behavior123 == 1 and behavior124 == 1 and behavior125 == 1:
-			result = result + ',' + "(fail to start)"
-		elif behavior126 == 1:
+		startrule1 = is_in_list(s2, ["crash", "stuck"])
+        	startrule2 = is_sort(2, s2, ["stop"], ["running"])
+        	startrule3 = is_sort(6, s2, ["running"], ["stop"])
+        	startrule4 = is_sort(4, s2, ["fail"], ["start"])
+        	startrule5 = is_sort(3, s2, ["can not"], ["start"])
+        	startrule6 = is_sort(7, s2, ["start"], ["fail"])
+        	startrule7 = is_in_list(s2, ["exception"])
+		if (startrule1+startrule2+startrule3+startrule4+startrule5+startrule6+startrule7) != 0:
 			result = result + ',' + "(fail to start)"
 
 		# 13、fail to exit
