@@ -155,14 +155,12 @@ def detect(sen2):
 		paymentrule10 = is_sort(2, s2, ["bill"], ["fraud"])
 		paymentrule11 = is_sort(15, s2, ["fraud"], ["$"])
 		paymentrule12 = is_sort(17, s2, ["fraud"], ["money"])
-
 		if (paymentrule1+paymentrule2+paymentrule3+paymentrule4+paymentrule5+paymentrule6+paymentrule7+paymentrule8+paymentrule9+paymentrule10+paymentrule11+paymentrule12) != 0:
 			result = result + ',' + "(payment)"
 
 		# 7、network traffic
 		networkrule1 = is_sort(3, s2, ["consume"], ["traffic"])
         	networkrule2 = is_sort(3, s2, ["consume"], ["network"])
-		
 		if (networkrule1+networkrule2) != 0:
 			result = result + ',' + "(network traffic)"
 		
@@ -177,7 +175,6 @@ def detect(sen2):
 		driverule8 = is_sort(4, s2, ["induce"], ["install"])
 		driverule9 = is_sort(3, s2, ["download"], ["plug-in"])
         	driverule10 = is_sort(3, s2, ["install"], ["plug-in"])
-
 		if (driverule1+driverule2+driverule3+driverule4+driverule5+driverule6+driverule7+driverule8+driverule9+driverule10) != 0:
 			result = result + ',' + "(drive-by download)"
 
