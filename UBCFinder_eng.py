@@ -126,10 +126,8 @@ def detect(sen2):
 
 		# 4、browser
 		browserrule1 = is_sort(2, s2, ["modify"], ["browser"])
-		browserrule2 = is_sort(2, s2, ["modify"], ["bookmark"])
-		browserrule3 = is_sort(2, s2, ["hijack"], ["browser"])
-        	browserrule4 = is_sort(2, s2, ["hijack"], ["bookmark"])
-		if (browserrule1+browserrule2+browserrule3+browserrule4) != 0:
+		browserrule2 = is_sort(2, s2, ["hijack"], ["browser"])
+		if (browserrule1+browserrule2) != 0:
 			result = result + ',' + "(browser)"
 
 		# 5、bad performance
